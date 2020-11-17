@@ -2,24 +2,115 @@
 <html lang="ru">
 
 <head>
-  <include src="src/template/head.html"></include>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    section {
+      padding: 20px 15px;
+    }
+
+    h1,
+    h2 {
+      margin: 0 0 0.83em;
+    }
+
+    .btn {
+      margin: 5px;
+      padding: 5px;
+      background-color: #126815;
+      border: none;
+      border-radius: 5px;
+      color: aliceblue;
+    }
+
+    fieldset {
+      display: block;
+      margin: 0;
+      padding: 0;
+      border: none;
+      margin-bottom: 1em;
+    }
+  </style>
 </head>
 
 <body>
-  <div style="display: none;">
-    <include src="resource/svg/sprite.svg"></include>
-  </div>
-  <include src="src/template/header.html"></include>
   <main>
 
-    <h2>Hello</h2>
-    <svg width="300" class="footer-developer-link__img" role="img">
-      <use xlink:href="#cat-logo"></use>
-    </svg>
-    <img width="300" src="img/img.jpg" alt="#">
+    <section>
+      <h1>Модальные окна</h1>
+      <!-- https://www.youtube.com/watch?v=s6PI8pKQxgo -->
 
-    <include src="src/template/footer.html"></include>
+      <ol>
+        <li>
+          атрибуты
+          <ul>
+            <li>role="dialog"</li>
+            <li>aria-lebelledby="modalTitle"</li>
+            <li>aria-describedby="modalDesc"</li>
+          </ul>
+        </li>
+        <li>overlay</li>
+        <li>
+          скрыть окно
+          <ul>
+            <li>aria-hidden="true"</li>
+            <li>tabindex="-1"</li>
+            <li>class="visually-hidden"</li>
+          </ul>
+        </li>
+        <li>несколько способов закрыть окно</li>
+        <li>правильная кнопка закрыть</li>
+        <li>нажатие на кнопку "esc"</li>
+        <li>
+          переходы по клавиатуре
+          <!-- https://github.com/theKashey/focus-lock -->
+          <!-- https://wsd.events/2017/10/21/pres/meet-modal/ -->
+        </li>
+        <li>запрет скролла</li>
+        <li>анимация</li>
+        <!-- <li>blur</li> -->
+      </ol>
+
+    </section>
+
+    <section>
+      <h2>открываем окна</h2>
+
+      <button class="btn">открыть окно 1</button>
+      <button class="btn">открыть окно 2</button>
+    </section>
+
+    <section>
+      <h2>Русские панграммы</h2>
+
+      <fieldset>
+        <legend>Присутствуют все буквы. Прислала Ирина</legend>
+        <p>Эй, цирюльникъ, ёжик выстриги, да щетину ряхи сбрей, феном вошь за печь гони!</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>33 буквы. Из журнала «Наука и жизнь»</legend>
+        <p>Экс-граф? Плюш изъят. Бьём чуждый цен хвощ!</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>33 буквы. По преданию, придумана профессором комбинаторики Санкт-Петербургского государственного
+          университета. Прислал Виктор Баргачев</legend>
+        <p>Эй, жлоб! Где туз? Прячь юных съёмщиц в шкаф.</p>
+      </fieldset>
+    </section>
+
   </main>
+
+  <script src="./js/main.js"></script>
 </body>
 
 </html>
