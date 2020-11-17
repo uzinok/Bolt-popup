@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-
+  <link rel="stylesheet" href="css/style.css">
   <style>
     body {
       margin: 0;
@@ -36,6 +36,9 @@
       margin: 0;
       padding: 0;
       border: none;
+    }
+    
+    main fieldset {
       margin-bottom: 1em;
     }
   </style>
@@ -84,8 +87,8 @@
     <section>
       <h2>открываем окна</h2>
 
-      <button class="btn">открыть окно 1</button>
-      <button class="btn">открыть окно 2</button>
+      <button class="btn" data-bolt="bolt-1">открыть окно 1</button>
+      <!-- <button class="btn">открыть окно 2</button> -->
     </section>
 
     <section>
@@ -109,6 +112,23 @@
     </section>
 
   </main>
+
+  <div class="bolt bolt-hidden"
+       role="dialog"
+       aria-lebelledby="modalTitle"
+       aria-describedby="modalDesc"
+       id="bolt-1"
+       aria-hidden="true");>
+
+    <div class="bolt-container">
+      <button class="bolt-close"></button>
+
+      <fieldset>
+        <legend id="modalTitle">Панграмма с другого сайта</legend>
+        <p id="modalDesc">Здесь фабула объять не может всех эмоций — шепелявый скороход в юбке тащит горячий мёд.</p>
+      </fieldset>
+    </div>
+  </div>
 
   <script src="./js/main.js"></script>
 </body>
