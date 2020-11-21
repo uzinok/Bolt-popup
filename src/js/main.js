@@ -1,6 +1,7 @@
 window.onload = () => {
   // создаем popup
   let popup = new Bolt(document.querySelector('.btn'));
+  let popup1 = new Bolt(document.querySelector('[data-bolt="bolt-2"]'));
 
 }
 
@@ -42,6 +43,7 @@ class Bolt {
       }
       // задаем nabindex -1
       interactiveEl[i].setAttribute('tabindex', -1);
+      interactiveEl[i].setAttribute('data-p', true);
     }
   }
 
@@ -53,21 +55,66 @@ class Bolt {
       this.btn.addEventListener('click', {
         handleEvent: () => {
 
-        this.popup.removeAttribute('aria-hidden');
-        this.popup.classList.remove('bolt-hidden');
+          this.popup.removeAttribute('aria-hidden');
+          this.popup.classList.remove('bolt-hidden');
 
-        this.close()
-        }, obj: this
+          let interactiveEl = document.querySelectorAll(this.interactiveCSS);
+          // перебираем все элементы
+          for (let i = 0; i < interactiveEl.length; i++) {
+            // если уже есть nabindex
+            if (interactiveEl[i].getAttribute('tabindex')) {
+              // задаем атрибут что бы запомнить nabindex
+              interactiveEl[i].setAttribute('data-tabindex', interactiveEl[i].getAttribute('tabindex'))
+            }
+            // задаем nabindex -1
+            interactiveEl[i].setAttribute('tabindex', -1);
+          }
+
+          let interactivePopup = this.popup.querySelectorAll('[data-p]');
+
+          for (let i = 0; i < interactivePopup.length; i++) {
+            if (interactivePopup[i].getAttribute('data-tabindex')) {
+              interactivePopup[i].setAttribute('tabindex', interactivePopup[i].getAttribute('data-tabindex'))
+            } else {
+              interactivePopup[i].removeAttribute('tabindex');
+            }
+          }
+
+          interactivePopup[0].focus();
+        },
+        obj: this
       });
-      
+
+      this.popup.querySelector('.bolt-close').addEventListener('click', {
+        handleEvent: this.close,
+        obj: this
+      });
     }
-    console.log(this);
-
-
   }
 
   close() {
-    console.log('fgdhdfg')
+    this.obj.popup.setAttribute('aria-hidden', true);
+    this.obj.popup.classList.add('bolt-hidden');
+
+    let interactivePopup = this.obj.popup.querySelectorAll('[data-p]');
+
+    for (let i = 0; i < interactivePopup.length; i++) {
+      if (interactivePopup[i].getAttribute('data-p')) {
+        interactivePopup[i].setAttribute('tabindex', -1)
+      }
+    }
+    
+    let interactiveEl = document.querySelectorAll('[tabindex="-1"]');
+    for (let i = 0; i < interactiveEl.length; i++) {
+      if (!interactiveEl[i].getAttribute('data-p')) {
+        if(interactiveEl[i].getAttribute('data-tabindex')) {
+          interactiveEl[i].setAttribute('tabindex', interactiveEl[i].getAttribute('data-tabindex'))
+        } else {
+          interactiveEl[i].removeAttribute('tabindex')
+        }
+      }
+    }
+    this.obj.btn.focus();
   }
 
 }

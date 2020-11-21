@@ -82,18 +82,13 @@
         <!-- <li>blur</li> -->
       </ol>
 
-      <button>
-        <div><span></span></div>
-      </button>
-
-      <a href=""></a>
     </section>
 
     <section>
       <h2>открываем окна</h2>
 
       <button class="btn" data-bolt="bolt-1">открыть окно 1</button>
-      <!-- <button class="btn">открыть окно 2</button> -->
+      <button class="btn" data-bolt="bolt-2" tabindex="6">открыть окно 2</button>
     </section>
 
     <section>
@@ -117,23 +112,32 @@
     </section>
 
   </main>
+<div class="bolt bolt-hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" id="bolt-1"
+  aria-hidden="true">
 
-  <div class="bolt bolt-hidden"
-       role="dialog"
-       aria-lebelledby="modalTitle"
-       aria-describedby="modalDesc"
-       id="bolt-1"
-       aria-hidden="true");>
+  <div class="bolt-container">
+    <button class="bolt-close" aria-label="close"></button>
 
-    <div class="bolt-container">
-      <button class="bolt-close"></button>
-
-      <fieldset>
-        <legend id="modalTitle">Панграмма с другого сайта</legend>
-        <p id="modalDesc"><a href="#">Здесь</a> <span tabindex="0">фабула</span> <input type="text" value="объять"> не может всех эмоций — шепелявый скороход в юбке тащит горячий мёд.</p>
-      </fieldset>
-    </div>
+    <fieldset>
+      <legend id="modalTitle">Панграмма с другого сайта</legend>
+      <p id="modalDesc"><a href="#">Здесь</a> <span tabindex="0">фабула</span> <input type="text" value="объять"> не
+        может всех эмоций — шепелявый скороход в юбке тащит горячий мёд.</p>
+    </fieldset>
   </div>
+</div>
+
+<div class="bolt bolt-hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" id="bolt-2"
+  aria-hidden="true">
+
+  <div class="bolt-container">
+    <button class="bolt-close" aria-label="close"></button>
+
+    <fieldset>
+      <legend id="modalTitle">типа заголовок</legend>
+      <p id="modalDesc"><a href="#">Здесь</a> <span tabindex="0">типа</span> <input type="text" value="какой-то"> текст</p>
+    </fieldset>
+  </div>
+</div>
 
   <script src="./js/main.js"></script>
 </body>
