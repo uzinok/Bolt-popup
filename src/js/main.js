@@ -1,6 +1,7 @@
 window.onload = () => {
   // создаем popup
   let popup = new Bolt(document.querySelector('.btn'));
+
 }
 
 // создаем class 
@@ -24,6 +25,7 @@ class Bolt {
       `,
       // инициализация окна
       this.initB(),
+      // отслеживаем действия кнопки и открытого окна
       this.influence()
   }
 
@@ -43,10 +45,29 @@ class Bolt {
     }
   }
 
+  // отслеживаем действия кнопки и открытого окна
   influence() {
-    this.btn.addEventListener('click', function (e) {
-      console.log(e);
-    });
+    // клик по кнопке
+    if (this.popup) {
+
+      this.btn.addEventListener('click', {
+        handleEvent: () => {
+
+        this.popup.removeAttribute('aria-hidden');
+        this.popup.classList.remove('bolt-hidden');
+
+        this.close()
+        }, obj: this
+      });
+      
+    }
+    console.log(this);
+
+
+  }
+
+  close() {
+    console.log('fgdhdfg')
   }
 
 }
