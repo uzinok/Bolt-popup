@@ -2,6 +2,7 @@ window.onload = () => {
   // создаем popup
   let popup = new Bolt(document.querySelector('.btn'));
   let popup1 = new Bolt(document.querySelector('[data-bolt="bolt-2"]'));
+  let popup2 = new Bolt(document.querySelector('.btn-2'));
 
 }
 
@@ -44,6 +45,11 @@ class Bolt {
       // задаем nabindex -1
       interactiveEl[i].setAttribute('tabindex', -1);
       interactiveEl[i].setAttribute('data-p', true);
+      if (document.querySelectorAll(`[data-bolt=${this.btn.getAttribute('data-bolt')}]`).length == 1) {
+        var box = this.btn.getBoundingClientRect();
+        this.popup.style.top = box.top + pageYOffset + 'px';
+        this.popup.style.left = box.left + pageXOffset + 'px';
+      }
     }
   }
 
@@ -54,6 +60,35 @@ class Bolt {
 
       this.btn.addEventListener('click', {
         handleEvent: () => {
+
+
+          this.popup.querySelector('.bolt-close').addEventListener('click', {
+            handleEvent: this.close,
+            obj: this
+          });
+
+          // this.popup.addEventListener('click', {
+          //   handleEvent: () => {
+          //     if(this){
+          //       console.log(e);
+          //     }
+          //   },
+          //   obj: this
+          // });
+
+          // document.addEventListener('keydown', ()=>{
+          //   console.log(this);
+          // });
+
+          document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + 'px';
+          setTimeout(() => {
+            document.body.style.overflow = 'hidden';
+          }, 0)
+
+          if (document.querySelectorAll(`[data-bolt=${this.btn.getAttribute('data-bolt')}]`).length == 1) {
+            this.popup.style.top = '';
+            this.popup.style.left = '';
+          }
 
           this.popup.removeAttribute('aria-hidden');
           this.popup.classList.remove('bolt-hidden');
@@ -85,10 +120,6 @@ class Bolt {
         obj: this
       });
 
-      this.popup.querySelector('.bolt-close').addEventListener('click', {
-        handleEvent: this.close,
-        obj: this
-      });
     }
   }
 
@@ -103,11 +134,11 @@ class Bolt {
         interactivePopup[i].setAttribute('tabindex', -1)
       }
     }
-    
+
     let interactiveEl = document.querySelectorAll('[tabindex="-1"]');
     for (let i = 0; i < interactiveEl.length; i++) {
       if (!interactiveEl[i].getAttribute('data-p')) {
-        if(interactiveEl[i].getAttribute('data-tabindex')) {
+        if (interactiveEl[i].getAttribute('data-tabindex')) {
           interactiveEl[i].setAttribute('tabindex', interactiveEl[i].getAttribute('data-tabindex'))
         } else {
           interactiveEl[i].removeAttribute('tabindex')
@@ -115,6 +146,15 @@ class Bolt {
       }
     }
     this.obj.btn.focus();
+
+    if (document.querySelectorAll(`[data-bolt=${this.obj.btn.getAttribute('data-bolt')}]`).length == 1) {
+      var box = this.obj.btn.getBoundingClientRect();
+      this.obj.popup.style.top = box.top + pageYOffset + 'px';
+      this.obj.popup.style.left = box.left + pageXOffset + 'px';
+    }
+
+    document.body.style.paddingRight = '';
+    document.body.style.overflow = '';
   }
 
 }
