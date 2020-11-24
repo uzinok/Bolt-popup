@@ -129,7 +129,8 @@ class Bolt {
     // что бы не дергалась верстка - задаем body отступ 
     document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + 'px';
     // узнаем высоту скролла и запоминаем
-    obj.scrollY = window.scrollY;
+    obj.scrollY = window.scrollY || window.pageYOffset;
+    console.log(window)
     // задаем top для body что бы визуально страница не дергалась
     document.body.style.top = `-${obj.scrollY}px`;
     setTimeout(function () {
@@ -208,7 +209,6 @@ class Bolt {
     if (event.target == obj.btn) {
       // запоминаем кнопку на которую кликнули
       obj.btnClick = event.target;
-      console.log(obj.btnClick);
       // открываем окно
       obj.open(obj);
     }
@@ -217,7 +217,6 @@ class Bolt {
       (event.target == obj.popup.querySelector('.bolt-close') && obj.check) ||
       (event.target == obj.popup && event.target != obj.popup.querySelector('.bolt-container'))
     ) {
-      console.log(obj.btnClick);
       // закрываем окно
       if (obj.check) {
         obj.close(obj);
