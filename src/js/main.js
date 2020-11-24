@@ -219,7 +219,9 @@ class Bolt {
     ) {
       console.log(obj.btnClick);
       // закрываем окно
-      obj.close(obj)
+      if (obj.check) {
+        obj.close(obj);
+      }
     }
   }
 }
