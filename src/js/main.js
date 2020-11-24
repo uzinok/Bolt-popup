@@ -29,7 +29,12 @@ class Bolt {
       this.initB()
     // отслеживаем действия кнопки и открытого окна
     this.influence()
+    // если окно открыто - true
     this.check = false
+    // высота скролла
+    this.scrollY = 0;
+    // кнопка по которой открыли окно
+    this.btnClick = this.btn;
   }
 
   initB() {
@@ -56,13 +61,12 @@ class Bolt {
 
   // отслеживаем действия кнопки и открытого окна
   influence() {
+
+    // если для кнопки есть окно
     if (this.popup) {
 
-      // открытие окна
-      this.btn.addEventListener("click", this.open.bind(null, this), false);
-
-      // закрытие по кнопке
-      this.popup.querySelector('.bolt-close').addEventListener("click", this.close.bind(null, this), false);
+      // отслеживаем клик для открытия/закрытия окна
+      document.addEventListener("click", this.clickPopup.bind(null, this), false)
 
       // закрытие по esk
       document.addEventListener("keydown", this.keydownEvent.bind(null, this), false);
@@ -70,6 +74,7 @@ class Bolt {
   }
 
   open(obj) {
+    // указываем что окно открыто
     obj.check = true;
 
     // открываем окно читалкам
@@ -77,11 +82,14 @@ class Bolt {
     // показываем окно
     obj.popup.classList.remove('bolt-hidden');
 
+    // если одна кнопка
     if (document.querySelectorAll(`[data-bolt=${obj.btn.getAttribute('data-bolt')}]`).length == 1) {
+      // сбрасываем свойства для position
       obj.popup.style.top = '';
       obj.popup.style.left = '';
     }
 
+    // получаем все интерактивные элементы на странице
     let interactiveEl = document.querySelectorAll(obj.interactiveCSS);
     // перебираем все элементы
     for (let i = 0; i < interactiveEl.length; i++) {
@@ -106,24 +114,24 @@ class Bolt {
 
     interactivePopup[0].focus();
 
-    document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + 'px';
 
-    document.body.style.top = `-${window.scrollY}px`;
-    document.body.style.position = 'fixed';
+    document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + 'px';
+    obj.scrollY = window.scrollY;
+    console.log(obj.scrollY)
+    document.body.style.top = `-${obj.scrollY}px`;
+    setTimeout(function () {
+      document.body.style.position = 'fixed';
+    }, 0)
   }
 
-  close(obj, event) {
+  close(obj) {
     obj.check = false;
     obj.popup.setAttribute('aria-hidden', true);
     obj.popup.classList.add('bolt-hidden');
 
-    // объявить в конструкторе, изменять при открытии
-    const scrollY = document.body.style.top;
-    // 
-    console.log(scrollY)
     document.body.style.position = '';
     document.body.style.top = '';
-    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    window.scrollTo(0, obj.scrollY);
     document.body.style.paddingRight = '';
 
     let interactivePopup = obj.popup.querySelectorAll('[data-p]');
@@ -143,7 +151,7 @@ class Bolt {
         }
       }
     }
-    obj.btn.focus();
+    obj.btnClick.focus();
     if (document.querySelectorAll(`[data-bolt=${obj.btn.getAttribute('data-bolt')}]`).length == 1) {
       var box = obj.btn.getBoundingClientRect();
       obj.popup.style.top = box.top + pageYOffset + box.width / 2 + 'px';
@@ -156,6 +164,16 @@ class Bolt {
       if (event.keyCode == 27) {
         obj.close(obj);
       }
+    }
+  }
+
+  clickPopup(obj, event) {
+
+    if (event.target == obj.btn) {
+      obj.btnClick = event.target;
+      obj.open(obj);
+    } else if ((event.target == obj.popup.querySelector('.bolt-close') && obj.check) || (event.target == obj.popup && event.target != obj.popup.querySelector('.bolt-container'))) {
+      obj.close(obj)
     }
   }
 
