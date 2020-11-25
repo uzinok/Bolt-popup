@@ -52,14 +52,6 @@ class Bolt {
       interactiveEl[i].setAttribute('tabindex', -1);
       interactiveEl[i].setAttribute('data-p', true);
     }
-    // если кнопка одна
-    if (document.querySelectorAll(`[data-bolt=${this.btn.getAttribute('data-bolt')}]`).length == 1) {
-      // получаем координаты кнопки
-      var box = this.btn.getBoundingClientRect();
-      // ставим окно там где кнопка
-      this.popup.style.top = box.top + pageYOffset + 'px';
-      this.popup.style.left = box.left + pageXOffset + 'px';
-    }
   }
 
   // отслеживаем действия кнопки и открытого окна
@@ -84,13 +76,8 @@ class Bolt {
     obj.popup.removeAttribute('aria-hidden');
     // показываем окно
     obj.popup.classList.remove('bolt-hidden');
-
-    // если одна кнопка
-    if (document.querySelectorAll(`[data-bolt=${obj.btn.getAttribute('data-bolt')}]`).length == 1) {
-      // сбрасываем свойства для position
-      obj.popup.style.top = '';
-      obj.popup.style.left = '';
-    }
+    // для мобильных устройств добавляем кликабельность
+    obj.popup.setAttribute('tabindex', 0);
 
     // получаем все интерактивные элементы на странице
     let interactiveEl = document.querySelectorAll(obj.interactiveCSS);
@@ -144,6 +131,8 @@ class Bolt {
     obj.check = false;
     // закрываем окно читалкам
     obj.popup.setAttribute('aria-hidden', true);
+    // убираем из доступа с клавиатуры
+    obj.popup.setAttribute('tabindex', -1);
     // скрываем окно
     obj.popup.classList.add('bolt-hidden');
 
@@ -182,14 +171,6 @@ class Bolt {
     }
     // задаем кнопке которой открыли окно фокус
     obj.btnClick.focus();
-    // если кнопка у окна одна
-    if (document.querySelectorAll(`[data-bolt=${obj.btn.getAttribute('data-bolt')}]`).length == 1) {
-      // получаем координаты кнопки
-      var box = obj.btn.getBoundingClientRect();
-      // ставим окно там где кнопка
-      obj.popup.style.top = box.top + pageYOffset + 'px';
-      obj.popup.style.left = box.left + pageXOffset + 'px';
-    }
   }
 
   // слушаем клавиатуру
