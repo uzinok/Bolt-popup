@@ -1,18 +1,17 @@
 window.onload = () => {
   // создаем popup
-  let popup = new Bolt(document.querySelector('.btn'));
-  let popup1 = new Bolt(document.querySelector('[data-bolt="bolt-2"]'));
-  let popup2 = new Bolt(document.querySelector('.btn-2'));
-
+  let popup = new BoltPopup(document.querySelector('.btn'));
+  let popup1 = new BoltPopup(document.querySelector('[data-BoltPopup="bolt-2"]'));
+  let popup2 = new BoltPopup(document.querySelector('.btn-2'));
 }
 
 // создаем class 
-class Bolt {
+class BoltPopup {
   constructor(btn) {
     // кнопка
     this.btn = btn
     // окно
-    this.popup = document.getElementById(this.btn.getAttribute('data-bolt'))
+    this.popup = document.getElementById(this.btn.getAttribute('data-BoltPopup'))
     // css селектор интерактивных окон
     this.interactiveCSS = `
         a[href]:not([tabindex='-1']),
@@ -28,13 +27,13 @@ class Bolt {
       // инициализация окна
       this.initB()
     // отслеживаем действия кнопки и открытого окна
-    this.influence()
+    this.actions()
     // если окно открыто - true
     this.check = false
     // высота скролла
-    this.scrollY = 0;
+    this.scrollY = 0
     // кнопка по которой открыли окно
-    this.btnClick = this.btn;
+    this.btnClick = this.btn
   }
 
   initB() {
@@ -55,16 +54,16 @@ class Bolt {
   }
 
   // отслеживаем действия кнопки и открытого окна
-  influence() {
+  actions() {
 
     // если для кнопки есть окно
     if (this.popup) {
 
       // отслеживаем клик для открытия/закрытия окна
-      document.addEventListener("click", this.clickPopup.bind(null, this), false)
+      document.addEventListener("click", this.trackСlick.bind(null, this), false)
 
       // закрытие по esk
-      document.addEventListener("keydown", this.keydownEvent.bind(null, this), false);
+      document.addEventListener("keydown", this.monitorKeyboard.bind(null, this), false);
     }
   }
 
@@ -75,9 +74,7 @@ class Bolt {
     // открываем окно читалкам
     obj.popup.removeAttribute('aria-hidden');
     // показываем окно
-    obj.popup.classList.remove('bolt-hidden');
-    // для мобильных устройств добавляем кликабельность
-    obj.popup.setAttribute('tabindex', 0);
+    obj.popup.classList.remove('bolt-popup--hidden');
 
     // получаем все интерактивные элементы на странице
     let interactiveEl = document.querySelectorAll(obj.interactiveCSS);
@@ -117,13 +114,14 @@ class Bolt {
     document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + 'px';
     // узнаем высоту скролла и запоминаем
     obj.scrollY = window.scrollY || window.pageYOffset;
-    console.log(window)
     // задаем top для body что бы визуально страница не дергалась
     document.body.style.top = `-${obj.scrollY}px`;
     setTimeout(function () {
       // задаем position fixed что бы отменить скролл
       document.body.style.position = 'fixed';
     }, 0)
+    // для мобильных устройств добавляем кликабельность
+    obj.popup.setAttribute('tabindex', '0');
   }
 
   close(obj) {
@@ -131,10 +129,8 @@ class Bolt {
     obj.check = false;
     // закрываем окно читалкам
     obj.popup.setAttribute('aria-hidden', true);
-    // убираем из доступа с клавиатуры
-    obj.popup.setAttribute('tabindex', -1);
     // скрываем окно
-    obj.popup.classList.add('bolt-hidden');
+    obj.popup.classList.add('bolt-popup--hidden');
 
     // разрешаем скролл на странице
     document.body.style.position = '';
@@ -171,10 +167,12 @@ class Bolt {
     }
     // задаем кнопке которой открыли окно фокус
     obj.btnClick.focus();
+    // убираем из доступа с клавиатуры
+    obj.popup.removeAttribute('tabindex');
   }
 
   // слушаем клавиатуру
-  keydownEvent(obj, event) {
+  monitorKeyboard(obj, event) {
     // если окно открыто
     if (obj.check) {
       // если нажали на кнопку "esc"
@@ -185,7 +183,7 @@ class Bolt {
     }
   }
 
-  clickPopup(obj, event) {
+  trackСlick(obj, event) {
     // если кликнули по кнопке
     if (event.target == obj.btn) {
       // запоминаем кнопку на которую кликнули
@@ -195,8 +193,8 @@ class Bolt {
     }
     // либо если кликнули по кнопке "закрыть" или по подложке
     else if (
-      (event.target == obj.popup.querySelector('.bolt-close') && obj.check) ||
-      (event.target == obj.popup && event.target != obj.popup.querySelector('.bolt-container'))
+      (event.target == obj.popup.querySelector('.bolt-popup-close') && obj.check) ||
+      (event.target == obj.popup && event.target != obj.popup.querySelector('.bolt-popup-container'))
     ) {
       // закрываем окно
       if (obj.check) {

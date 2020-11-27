@@ -64,7 +64,7 @@
             <li>aria-describedby="modalDesc"</li>
           </ul>
         </li>
-        <li>overlay</li>
+        <li>подложка с прозрачным фоном</li>
         <li>
           скрыть окно
           <ul>
@@ -74,16 +74,14 @@
           </ul>
         </li>
         <li>несколько способов закрыть окно</li>
-        <li>правильная кнопка закрыть</li>
+        <li>"правильная" кнопка закрыть</li>
         <li>нажатие на кнопку "esc"</li>
         <li>
           переходы по клавиатуре
-          <!-- https://github.com/theKashey/focus-lock -->
           <!-- https://wsd.events/2017/10/21/pres/meet-modal/ -->
         </li>
         <li>запрет скролла</li>
         <li>анимация</li>
-        <!-- <li>blur</li> -->
       </ol>
 
     </section>
@@ -91,9 +89,9 @@
     <hr>
     <section>
       <h2>открываем окна</h2>
-      <button class="btn" data-bolt="bolt-1">открыть окно 1</button>
-      <button class="btn" data-bolt="bolt-2" tabindex="6">открыть окно 2</button>
-      <button class="btn btn-2" data-bolt="bolt-2">открыть окно 2</button>
+      <button class="btn" data-BoltPopup="bolt-1">открыть окно 1</button>
+      <button class="btn" data-BoltPopup="bolt-2" tabindex="6">открыть окно 2</button>
+      <button class="btn btn-2" data-BoltPopup="bolt-2">открыть окно 2</button>
     </section>
 
     <section>
@@ -111,11 +109,11 @@
     </section>
 
   </main>
-<div class="bolt bolt-hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" id="bolt-1"
+<div class="bolt-popup bolt-popup--hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" id="bolt-1"
   aria-hidden="true">
 
-  <div class="bolt-container">
-    <button class="bolt-close" aria-label="close"></button>
+  <div class="bolt-popup-container">
+    <button class="bolt-popup-close" aria-label="close"></button>
 
       <h2 id="modalTitle">Панграмма с другого сайта</h2>
       <p id="modalDesc"><a href="#">Здесь</a> <span tabindex="0">фабула</span> <input type="text" value="объять"> не
@@ -123,11 +121,11 @@
   </div>
 </div>
 
-<div class="bolt bolt-hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" id="bolt-2"
+<div class="bolt-popup bolt-popup--hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" id="bolt-2"
   aria-hidden="true">
 
-  <div class="bolt-container">
-    <button class="bolt-close" aria-label="close"></button>
+  <div class="bolt-popup-container">
+    <button class="bolt-popup-close" aria-label="close"></button>
 
       <h2 id="modalTitle">типа заголовок</h2>
       <p id="modalDesc"><a href="#">Здесь</a> <span tabindex="0">типа</span> <input type="text" value="какой-то"> текст</p>
