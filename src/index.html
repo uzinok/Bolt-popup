@@ -89,9 +89,9 @@
     <hr>
     <section>
       <h2>открываем окна</h2>
-      <button class="btn" data-BoltPopup="bolt-1">открыть окно 1</button>
-      <button class="btn" data-BoltPopup="bolt-2" tabindex="6">открыть окно 2</button>
-      <button class="btn btn-2" data-BoltPopup="bolt-2">открыть окно 2</button>
+      <button class="btn" data-path-popup="bolt-1">открыть окно 1</button>
+      <button class="btn" data-path-popup="bolt-2" tabindex="6">открыть окно 2</button>
+      <button class="btn btn-2" data-path-popup="bolt-2">открыть окно 2</button>
     </section>
 
     <section>
@@ -109,7 +109,7 @@
     </section>
 
   </main>
-<div class="bolt-popup bolt-popup--hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" id="bolt-1"
+<div class="bolt-popup bolt-popup--hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" data-target-popup="bolt-1"
   aria-hidden="true">
 
   <div class="bolt-popup-container">
@@ -121,7 +121,7 @@
   </div>
 </div>
 
-<div class="bolt-popup bolt-popup--hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" id="bolt-2"
+<div class="bolt-popup bolt-popup--hidden" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" data-target-popup="bolt-2"
   aria-hidden="true">
 
   <div class="bolt-popup-container">
