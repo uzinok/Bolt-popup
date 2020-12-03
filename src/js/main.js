@@ -114,8 +114,6 @@ class BoltPopup {
     }
 
     listenEvent() {
-        console.log('слушаем события')
-
         // слушаем клавиатуру, закрытие по esk
         document.addEventListener("keydown", this.monitorKeyboard.bind(null, this), false);
 
@@ -126,7 +124,6 @@ class BoltPopup {
     // слушаем клавиатуру
     monitorKeyboard(obj, event) {
         // если окно открыто
-        console.log('эта строка не должна выводиться при закрытом окне')
         if (obj.check) {
             // если нажали на кнопку "esc"
             if (event.keyCode == 27) {
