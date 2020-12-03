@@ -62,7 +62,7 @@ class BoltPopup {
         // открываем окно читалкам
         obj.popup.removeAttribute('aria-hidden');
         // показываем окно
-        obj.popup.classList.remove('bolt-popup--hidden');
+        obj.popup.classList.add('bolt-popup--visible');
 
         // получаем все интерактивные элементы на странице
         let interactiveEl = document.querySelectorAll(obj.interactiveCSS);
@@ -153,7 +153,7 @@ class BoltPopup {
         // закрываем окно читалкам
         obj.popup.setAttribute('aria-hidden', true);
         // скрываем окно
-        obj.popup.classList.add('bolt-popup--hidden');
+        obj.popup.classList.remove('bolt-popup--visible');
 
         // разрешаем скролл на странице
         document.body.style.position = '';
