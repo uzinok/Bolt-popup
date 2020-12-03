@@ -1,13 +1,32 @@
 body {}
 
 .bolt-popup {
+  background-color: rgba(0, 0, 0, 0.2);
 
-  &--hidden {}
+  &--visible {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
-.bolt-popup__container {}
+.bolt-popup__container {
+  position: relative;
+  background-color: #fff;
+
+  border-radius: 2px;
+  padding: 2em 1em 1em;
+  margin: 30px 15px;
+}
 
 .bolt-popup__close {
+  
 
   &::before,
   &::after {}
