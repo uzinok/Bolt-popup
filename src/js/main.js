@@ -5,7 +5,7 @@ window.onload = () => {
 class BoltPopup {
     constructor(popup) {
         this.popup = popup
-
+        this.clickBtn
 
         // css селектор интерактивных окон
         this.interactiveCSS = `a[href]:not([tabindex='-1']), area[href]:not([tabindex='-1']), input:not([disabled]):not([tabindex='-1']), select:not([disabled]):not([tabindex='-1']), textarea:not([disabled]):not([tabindex='-1']), button:not([disabled]):not([tabindex='-1']), iframe:not([tabindex='-1']), [tabindex]:not([tabindex='-1']), [contentEditable=true]:not([tabindex='-1'])`
@@ -23,6 +23,43 @@ class BoltPopup {
                 interactiveEl[i].setAttribute('data-tabindex', interactiveEl[i].getAttribute('tabindex'));
             }
             interactiveEl[i].setAttribute('tabindex', -1);
+            interactiveEl[i].setAttribute('data-popup', true);
         }
+
+        let btns = document.querySelectorAll(`[dada-target-popup="${this.popup.getAttribute('dada-path-popup')}"]`);
+
+        for (let i = 0; i < btns.length; i++ ) {
+            btns[i].addEventListener('click', this.isOpen.bind(null, this, btns[i]))
+        }
+    }
+
+    isOpen(obj, clickBtn) {
+        obj.clickBtn = clickBtn;
+        obj.popup.setAttribute('tabindex', 0)
+
+        obj.popup.classList.add('bolt-popup--visible');
+
+        let interactiveEl = document.querySelectorAll(obj.interactiveCSS);
+
+        for(let i = 0; i < interactiveEl.length; i++) {
+            console.log(obj)
+            if (!interactiveEl[i].getAttribute('data-popup')) {
+                if(interactiveEl[i].getAttribute('tabindex')) {
+                    interactiveEl[i].setAttribute('data-tabindex', interactiveEl[i].getAttribute('tabindex'));
+                }
+                interactiveEl[i].setAttribute('tabindex', -1);
+            }
+        }
+
+        let interactiveElPopup = obj.popup.querySelectorAll('[tabindex="-1"]');
+        for (let i = 0; i < interactiveElPopup.length; i++) {
+            if(interactiveElPopup[i].getAttribute('data-tabindex')) {
+                interactiveElPopup[i].setAttribute('tabindex', interactiveElPopup[i].getAttribute('data-tabindex'))
+            } else {
+                interactiveElPopup[i].removeAttribute('tabindex')
+            }
+        }
+        // console.log(obj)
+        // console.log(clickBtn)
     }
 }
