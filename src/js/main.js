@@ -6,6 +6,7 @@ class BoltPopup {
     constructor(popup) {
         this.popup = popup
         this.clickBtn
+        this.scrollHeight = 0
 
         // css селектор интерактивных окон
         this.interactiveCSS = `a[href]:not([tabindex='-1']), area[href]:not([tabindex='-1']), input:not([disabled]):not([tabindex='-1']), select:not([disabled]):not([tabindex='-1']), textarea:not([disabled]):not([tabindex='-1']), button:not([disabled]):not([tabindex='-1']), iframe:not([tabindex='-1']), [tabindex]:not([tabindex='-1']), [contentEditable=true]:not([tabindex='-1'])`
@@ -35,7 +36,7 @@ class BoltPopup {
 
     isOpen(obj, clickBtn) {
         obj.clickBtn = clickBtn;
-        obj.popup.setAttribute('tabindex', 0)
+        obj.popup.setAttribute('tabindex', 0);
 
         obj.popup.classList.add('bolt-popup--visible');
 
@@ -56,9 +57,17 @@ class BoltPopup {
             if(interactiveElPopup[i].getAttribute('data-tabindex')) {
                 interactiveElPopup[i].setAttribute('tabindex', interactiveElPopup[i].getAttribute('data-tabindex'))
             } else {
-                interactiveElPopup[i].removeAttribute('tabindex')
+                interactiveElPopup[i].removeAttribute('tabindex');
             }
         }
+
+
+        obj.scrollHeight = window.scrollY || window.pageYOffset;
+        document.body.style.top = `-${obj.scrollHeight}px`;
+        document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + "px";
+        setTimeout(function() {
+            document.body.style.position = "fixed";
+        }, 0)
         // console.log(obj)
         // console.log(clickBtn)
     }
