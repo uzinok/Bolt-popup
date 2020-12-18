@@ -100,9 +100,9 @@ class BoltPopup {
 
         let interactiveEl = document.querySelectorAll('[tabindex="-1"]');
         for (let i = 0; i < interactiveEl.length; i++) {
-            if(interactiveEl[i].getAttribute('data-tabindex') && interactiveEl[i].getAttribute('data-popup')) {
+            if(interactiveEl[i].getAttribute('data-tabindex') && !interactiveEl[i].getAttribute('data-popup')) {
                 interactiveEl[i].setAttribute('tabindex', interactiveEl[i].getAttribute('data-tabindex'))
-            } else {
+            } else if (!interactiveEl[i].getAttribute('data-popup')) {
                 interactiveEl[i].removeAttribute('tabindex');
             }
         }
