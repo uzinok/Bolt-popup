@@ -76,8 +76,8 @@
     <section>
       <h2>открываем окна</h2>
       <button class="btn" dada-target-popup="popup-1">открыть окно 1</button>
-      <button class="btn" tabindex="5">открыть окно 2</button>
-      <button class="btn btn-2">открыть окно 2</button>
+      <button class="btn" tabindex="5" dada-target-popup="popup-2">открыть окно 2</button>
+      <button class="btn btn-2" dada-target-popup="popup-2">открыть окно 2</button>
     </section>
 
     <section>
@@ -108,6 +108,20 @@
     <p>Подъехал <span tabindex="2">шофёр</span> на рефрижераторе грузить яйца для обучающихся элитных медиков.</p>
   </div>
   
+</div>
+
+<div 
+class="bolt-popup"
+aria-hidden="true"
+role="dialog"
+dada-path-popup="popup-2"
+>
+
+<div class="bolt-popup__container">
+  <button class="bolt-popup__close" aria-label="Close"></button>
+  <p>Обдав его удушающей пылью, множество ярких фаэтонов исчезло из цирка.</p>
+</div>
+
 </div>
 
   <script src="./js/main.js"></script>
