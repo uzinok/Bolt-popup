@@ -40,7 +40,6 @@ class BoltPopup {
         obj.check = true;
         obj.clickBtn = clickBtn || false;
         obj.popup.setAttribute('tabindex', 0);
-        obj.popup.focus();
 
         obj.popup.classList.add('bolt-popup--visible');
 
@@ -71,6 +70,8 @@ class BoltPopup {
         setTimeout(function() {
             document.body.style.position = "fixed";
         }, 0)
+
+        obj.popup.focus();
         
         document.addEventListener('keydown', obj.monitorKeyboard.bind(null, obj), false);
         document.addEventListener('click', obj.monitorClick.bind(null, obj), false);
