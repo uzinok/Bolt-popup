@@ -34,17 +34,6 @@
     .btn:focus {
       background-color: #f00;
     }
-
-    fieldset {
-      display: block;
-      margin: 0;
-      padding: 0;
-      border: none;
-    }
-    
-    main fieldset {
-      margin-bottom: 1em;
-    }
   </style>
 </head>
 
@@ -53,8 +42,7 @@
 
     <section>
       <h1>Модальные окна</h1>
-      <!-- https://www.youtube.com/watch?v=s6PI8pKQxgo -->
-
+      
       <ol>
         <li>
           атрибуты
@@ -76,10 +64,7 @@
         <li>несколько способов закрыть окно</li>
         <li>"правильная" кнопка закрыть</li>
         <li>нажатие на кнопку "esc"</li>
-        <li>
-          переходы по клавиатуре
-          <!-- https://wsd.events/2017/10/21/pres/meet-modal/ -->
-        </li>
+        <li>переходы по клавиатуре</li>
         <li>запрет скролла</li>
         <li>анимация</li>
       </ol>
@@ -87,11 +72,12 @@
     </section>
     
     <hr>
+    
     <section>
       <h2>открываем окна</h2>
-      <button class="btn" data-path-popup="bolt-1">открыть окно 1</button>
-      <button class="btn" data-path-popup="bolt-2" tabindex="6">открыть окно 2</button>
-      <button class="btn btn-2" data-path-popup="bolt-2">открыть окно 2</button>
+      <button class="btn" dada-target-popup="popup-1">открыть окно 1</button>
+      <button class="btn" tabindex="5" dada-target-popup="popup-2">открыть окно 2</button>
+      <button class="btn btn-2" dada-target-popup="popup-2">открыть окно 2</button>
     </section>
 
     <section>
@@ -109,27 +95,33 @@
     </section>
 
   </main>
-<div class="bolt-popup" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" data-target-popup="bolt-1"
-  aria-hidden="true">
 
-  <div class="bolt-popup-container">
-    <button class="bolt-popup-close" aria-label="close"></button>
+  <div 
+  class="bolt-popup"
+  aria-hidden="true"
+  role="dialog"
+  dada-path-popup="popup-1"
+  >
 
-      <h2 id="modalTitle">Панграмма с другого сайта</h2>
-      <p id="modalDesc"><a href="#">Здесь</a> <span tabindex="0">фабула</span> <input type="text" value="объять"> не
-        может всех эмоций — шепелявый скороход в юбке тащит горячий мёд.</p>
+  <div class="bolt-popup__container">
+    <button class="bolt-popup__close" aria-label="Close"></button>
+    <p>Подъехал <span tabindex="2">шофёр</span> на рефрижераторе грузить яйца для обучающихся элитных медиков.</p>
   </div>
+  
 </div>
 
-<div class="bolt-popup" role="dialog" aria-lebelledby="modalTitle" aria-describedby="modalDesc" data-target-popup="bolt-2"
-  aria-hidden="true">
+<div 
+class="bolt-popup"
+aria-hidden="true"
+role="dialog"
+dada-path-popup="popup-2"
+>
 
-  <div class="bolt-popup-container">
-    <button class="bolt-popup-close" aria-label="close"></button>
+<div class="bolt-popup__container">
+  <button class="bolt-popup__close" aria-label="Close"></button>
+  <p>Обдав его удушающей пылью, множество ярких фаэтонов исчезло из цирка.</p>
+</div>
 
-      <h2 id="modalTitle">типа заголовок</h2>
-      <p id="modalDesc"><a href="#">Здесь</a> <span tabindex="0">типа</span> <input type="text" value="какой-то"> текст</p>
-  </div>
 </div>
 
   <script src="./js/main.js"></script>
