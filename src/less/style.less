@@ -4,46 +4,60 @@ body {
 }
 
 .bolt-popup {
-
+  // скрываем окно
   width: 0;
   height: 0;
   overflow: hidden;
   opacity: 0;
+  // добавляем анимацию появления окна
   transition: opacity 150ms;
 
+  // когда окно открыто
   &--visible {
+    // прозрачная подложка
     background-color: rgba(0, 0, 0, 0.2);
+    // позиционируем на весь экран
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    opacity: 1;
     width: 100%;
     height: 100%;
+    // делаем окно видимым
+    opacity: 1;
 
+    // контент окна распологаем по ценру
     display: flex;
     justify-content: center;
     align-items: center;
 
+    // на случай если контент больше чем вьюпорт
     overflow: auto;
   }
 }
 
+// контент
 .bolt-popup__container {
+  // для кнопки "закрыть"
   position: relative;
 
+  // для читабельности
   background-color: #fff;
   border-radius: 2px;
   padding: 2em 1em 1em;
+  // что бы не прилипало к краям когда маленький экран
   margin: auto 15px;
 }
 
+// кнопка закрыть
 .bolt-popup__close {
+  // ставим в правый верхний угол жестко
   position: absolute;
   top: -15px;
   right: -15px;
 
+  // минимальный размер для интеракривных элементов для мобильных устройств
   width: 48px;
   height: 48px;
   padding: 0;
@@ -51,6 +65,7 @@ body {
   border: none;
   background-color: transparent;
 
+  // крестик
   &::before,
   &::after {
     position: absolute;
