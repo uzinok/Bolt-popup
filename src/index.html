@@ -42,7 +42,7 @@
 
     <section>
       <h1>Модальные окна</h1>
-      
+
       <ol>
         <li>
           атрибуты
@@ -70,9 +70,9 @@
       </ol>
 
     </section>
-    
+
     <hr>
-    
+
     <section>
       <h2>открываем окна</h2>
       <button class="btn" dada-target-popup="popup-1">открыть окно 1</button>
@@ -83,51 +83,49 @@
     <section>
       <h2>Русские панграммы</h2>
 
-        <p>Присутствуют все буквы. Прислала Ирина</p>
-        <p>Эй, цирюльникъ, ёжик выстриги, да щетину ряхи сбрей, феном вошь за печь гони!</p>
+      <p>Присутствуют все буквы. Прислала Ирина</p>
+      <p>Эй, цирюльникъ, ёжик выстриги, да щетину ряхи сбрей, феном вошь за печь гони!</p>
 
-        <p>33 буквы. Из журнала «Наука и жизнь»</p>
-        <p>Экс-граф? Плюш изъят. Бьём чуждый цен хвощ!</p>
+      <p>33 буквы. Из журнала «Наука и жизнь»</p>
+      <p>Экс-граф? Плюш изъят. Бьём чуждый цен хвощ!</p>
 
-        <p>33 буквы. По преданию, придумана профессором комбинаторики Санкт-Петербургского государственного
-          университета. Прислал Виктор Баргачев</p>
-        <p>Эй, жлоб! Где туз? Прячь юных съёмщиц в шкаф.</p>
+      <p>33 буквы. По преданию, придумана профессором комбинаторики Санкт-Петербургского государственного
+        университета. Прислал Виктор Баргачев</p>
+      <p>Эй, жлоб! Где туз? Прячь юных съёмщиц в шкаф.</p>
     </section>
 
   </main>
 
-  <div
+  <div aria-lebelledby="modalTitle" aria-describedby="modalDesc" class="bolt-popup" role="dialog"
+    dada-path-popup="popup-1">
 
-  aria-lebelledby="modalTitle"
-  aria-describedby="modalDesc"
+    <div class="bolt-popup__container">
+      <button class="bolt-popup__close" aria-label="Close"></button>
+      <h2 id="modalTitle">Это заголовок окна</h2>
+      <p id="modalDesc">Подъехал <span tabindex="2">шофёр</span> на рефрижераторе грузить яйца для обучающихся элитных
+        медиков.</p>
+    </div>
 
-  class="bolt-popup"
-  role="dialog"
-  dada-path-popup="popup-1"
-  >
-
-  <div class="bolt-popup__container">
-    <button class="bolt-popup__close" aria-label="Close"></button>
-    <h2 id="modalTitle">Это заголовок окна</h2>
-    <p id="modalDesc">Подъехал <span tabindex="2">шофёр</span> на рефрижераторе грузить яйца для обучающихся элитных медиков.</p>
   </div>
-  
-</div>
 
-<div 
-class="bolt-popup"
-role="dialog"
-dada-path-popup="popup-2"
->
+  <div class="bolt-popup" role="dialog" dada-path-popup="popup-2">
 
-<div class="bolt-popup__container">
-  <button class="bolt-popup__close" aria-label="Close"></button>
-  <p>Обдав его удушающей пылью, множество ярких фаэтонов исчезло из цирка.</p>
-</div>
+    <div class="bolt-popup__container">
+      <button class="bolt-popup__close" aria-label="Close"></button>
+      <p>Обдав его удушающей пылью, множество ярких фаэтонов исчезло из цирка.</p>
+    </div>
 
-</div>
+  </div>
 
-  <script src="./js/main.js"></script>
+  <script src="./js/main.min.js"></script>
+
+  <script>
+    window.onload = () => {
+      // создаем объекты для окон
+      let popup1 = new BoltPopup(document.querySelector('[dada-path-popup="popup-1"]'))
+      let popup2 = new BoltPopup(document.querySelector('[dada-path-popup="popup-2"]'))
+    }
+  </script>
 </body>
 
 </html>

@@ -14,7 +14,9 @@ const csso = require('gulp-csso');
 // html
 const htmlmin = require('gulp-htmlmin');
 // js
-const webpackStream = require('webpack-stream');
+const babel = require('gulp-babel');
+const minify = require('gulp-minify');
+const concat = require('gulp-concat');
 // browserSync
 const browserSync = require('browser-sync').create();
 // error
@@ -67,11 +69,8 @@ const htmlTo = () => {
 }
 exports.htmlTo = htmlTo;
 
-/**
- * scripts
- */
 const scripts = () => {
-  return src('./src/js/main.js')
+  return src('src/js/main.js')
     .pipe(plumber({
       errorHandler: notify.onError(function (err) {
         return {
@@ -80,22 +79,18 @@ const scripts = () => {
         }
       })
     }))
-    .pipe(webpackStream({
-      output: {
-        filename: 'main.js',
+    .pipe(concat('main.js', {
+      newLine: ';'
+    }))
+    .pipe(babel({
+      presets: ['@babel/preset-env']
+    }))
+    .pipe(minify({
+      ext: {
+        src: '.js',
+        min: '.min.js'
       },
-      module: {
-        rules: [{
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
-          }
-        }]
-      }
+      exclude: ['tasks']
     }))
     .pipe(dest('build/js'))
     .pipe(browserSync.stream());
@@ -148,25 +143,30 @@ exports.lessToCssBuild = lessToCssBuild;
 
 
 const scriptsBuild = () => {
-  return src('./src/js/main.js')
-    .pipe(webpackStream({
-      output: {
-        filename: 'main.js',
-      },
-      module: {
-        rules: [{
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
-          }
-        }]
-      }
+  return src('src/js/main.js')
+    .pipe(plumber({
+      errorHandler: notify.onError(function (err) {
+        return {
+          title: 'js',
+          message: err.message
+        }
+      })
     }))
-    .pipe(dest('build/js'));
+    .pipe(concat('main.js', {
+      newLine: ';'
+    }))
+    .pipe(babel({
+      presets: ['@babel/preset-env']
+    }))
+    .pipe(minify({
+      ext: {
+        src: '.js',
+        min: '.min.js'
+      },
+      exclude: ['tasks']
+    }))
+    .pipe(dest('build/js'))
+    .pipe(browserSync.stream());
 }
 exports.scriptsBuild = scriptsBuild;
 

@@ -1,1 +1,170 @@
-!function(t){var e={};function n(o){if(e[o])return e[o].exports;var i=e[o]={i:o,l:!1,exports:{}};return t[o].call(i.exports,i,i.exports,n),i.l=!0,i.exports}n.m=t,n.c=e,n.d=function(t,e,o){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:o})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var i in t)n.d(o,i,function(e){return t[e]}.bind(null,i));return o},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e){function n(t,e){for(var n=0;n<e.length;n++){var o=e[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(t,o.key,o)}}window.onload=function(){new o(document.querySelector('[dada-path-popup="popup-1"]')),new o(document.querySelector('[dada-path-popup="popup-2"]'))};var o=function(){function t(e){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.popup=e,this.clickBtn,this.scrollHeight=0,this.check=!1,this.interactiveCSS="a[href]:not([tabindex='-1']), area[href]:not([tabindex='-1']), input:not([disabled]):not([tabindex='-1']), select:not([disabled]):not([tabindex='-1']), textarea:not([disabled]):not([tabindex='-1']), button:not([disabled]):not([tabindex='-1']), iframe:not([tabindex='-1']), [tabindex]:not([tabindex='-1']), [contentEditable=true]:not([tabindex='-1'])",this.initPopup()}var e,o,i;return e=t,(o=[{key:"initPopup",value:function(){var t=this.popup.querySelectorAll(this.interactiveCSS);this.popup.setAttribute("aria-hidden","true");for(var e=0;e<t.length;e++)t[e].getAttribute("tabindex")&&t[e].setAttribute("data-tabindex",t[e].getAttribute("tabindex")),t[e].setAttribute("tabindex",-1),t[e].setAttribute("data-popup",!0);for(var n=document.querySelectorAll('[dada-target-popup="'.concat(this.popup.getAttribute("dada-path-popup"),'"]')),o=0;o<n.length;o++)n[o].addEventListener("click",this.isOpen.bind(null,this,n[o]))}},{key:"isOpen",value:function(t,e){t.check=!0,t.clickBtn=e||!1,t.popup.setAttribute("tabindex",0),t.popup.classList.add("bolt-popup--visible"),t.popup.removeAttribute("aria-hidden");for(var n=document.querySelectorAll(t.interactiveCSS),o=0;o<n.length;o++)n[o].getAttribute("data-popup")||(n[o].getAttribute("tabindex")&&n[o].setAttribute("data-tabindex",n[o].getAttribute("tabindex")),n[o].setAttribute("tabindex",-1));for(var i=t.popup.querySelectorAll('[tabindex="-1"]'),r=0;r<i.length;r++)i[r].getAttribute("data-tabindex")?i[r].setAttribute("tabindex",i[r].getAttribute("data-tabindex")):i[r].removeAttribute("tabindex");t.scrollHeight=window.scrollY||window.pageYOffset,document.body.style.top="-".concat(t.scrollHeight,"px"),document.body.style.paddingRight=window.innerWidth-document.body.offsetWidth+"px",setTimeout((function(){document.body.style.position="fixed"}),0),t.popup.focus(),document.addEventListener("keydown",t.monitorKeyboard.bind(null,t),!1),document.addEventListener("click",t.monitorClick.bind(null,t),!1)}},{key:"monitorKeyboard",value:function(t,e){27==e.keyCode&&t.check&&t.isClose(t)}},{key:"monitorClick",value:function(t,e){t.check&&(e.target==t.popup.querySelector(".bolt-popup__close")||e.target==t.popup&&e.target!=t.popup.querySelector(".bolt-popup__container"))&&t.isClose(t)}},{key:"isClose",value:function(t){t.check=!1,t.popup.removeAttribute("tabindex"),t.popup.classList.remove("bolt-popup--visible"),t.popup.setAttribute("aria-hidden","true");for(var e=document.querySelectorAll('[tabindex="-1"]'),n=0;n<e.length;n++)e[n].getAttribute("data-tabindex")&&!e[n].getAttribute("data-popup")?e[n].setAttribute("tabindex",e[n].getAttribute("data-tabindex")):e[n].getAttribute("data-popup")||e[n].removeAttribute("tabindex");for(var o=this.popup.querySelectorAll("[data-popup]"),i=0;i<o.length;i++)o[i].setAttribute("tabindex",-1);document.body.style.position="",window.scrollTo(0,t.scrollHeight),document.body.style.paddingRight="",document.body.style.top="",t.clickBtn&&t.clickBtn.focus()}}])&&n(e.prototype,o),i&&n(e,i),t}()}]);
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var BoltPopup = /*#__PURE__*/function () {
+  function BoltPopup(popup) {
+    _classCallCheck(this, BoltPopup);
+
+    // само окно
+    this.popup = popup; // кнопка на которую кликнули для открытия окна
+
+    this.clickBtn; // высота прокрутки страницы при ткрытии окна
+
+    this.scrollHeight = 0; // окно закрыто
+
+    this.check = false; // css селектор интерактивных окон
+
+    this.interactiveCSS = "a[href]:not([tabindex='-1']), area[href]:not([tabindex='-1']), input:not([disabled]):not([tabindex='-1']), select:not([disabled]):not([tabindex='-1']), textarea:not([disabled]):not([tabindex='-1']), button:not([disabled]):not([tabindex='-1']), iframe:not([tabindex='-1']), [tabindex]:not([tabindex='-1']), [contentEditable=true]:not([tabindex='-1'])"; // добавляем необходимые атрибуты окну и его элементам
+
+    this.initPopup();
+  }
+
+  _createClass(BoltPopup, [{
+    key: "initPopup",
+    value: function initPopup() {
+      // получаем все интерактивные элементы окна
+      var interactiveEl = this.popup.querySelectorAll(this.interactiveCSS);
+      this.popup.setAttribute('aria-hidden', 'true'); // перебирем все интерактивные элементы
+
+      for (var i = 0; i < interactiveEl.length; i++) {
+        // если есть атрибут tabindex
+        if (interactiveEl[i].getAttribute('tabindex')) {
+          // запоминаем в data-tabindex
+          interactiveEl[i].setAttribute('data-tabindex', interactiveEl[i].getAttribute('tabindex'));
+        } // задаем tabindex -1 что бы исключить из доступа с клавиатуры
+
+
+        interactiveEl[i].setAttribute('tabindex', -1); // запоминаем что это элемент окна
+
+        interactiveEl[i].setAttribute('data-popup', true);
+      } // получаем все возможные кнопки для открытия текущего окна
+
+
+      var btns = document.querySelectorAll("[dada-target-popup=\"".concat(this.popup.getAttribute('dada-path-popup'), "\"]")); // в цикле отслеживаем по ним клик и открываем окно
+
+      for (var _i = 0; _i < btns.length; _i++) {
+        btns[_i].addEventListener('click', this.isOpen.bind(null, this, btns[_i]));
+      }
+    }
+  }, {
+    key: "isOpen",
+    value: function isOpen(obj, clickBtn) {
+      // запоминаем что окно открыто
+      obj.check = true; // запоминаем на какую кнопку кликнули
+
+      obj.clickBtn = clickBtn || false; // добавляем кликабельность для overlay
+
+      obj.popup.setAttribute('tabindex', 0); // показываем окно
+
+      obj.popup.classList.add('bolt-popup--visible');
+      obj.popup.removeAttribute('aria-hidden'); // получаем все интерактивные элементы окна
+
+      var interactiveEl = document.querySelectorAll(obj.interactiveCSS);
+
+      for (var i = 0; i < interactiveEl.length; i++) {
+        // если это элемент не всплывающего окна
+        if (!interactiveEl[i].getAttribute('data-popup')) {
+          // если есть атрибут tabindex
+          if (interactiveEl[i].getAttribute('tabindex')) {
+            // запоминаем его в data-tabindex
+            interactiveEl[i].setAttribute('data-tabindex', interactiveEl[i].getAttribute('tabindex'));
+          } // закрываем доступ от клавиатуры
+
+
+          interactiveEl[i].setAttribute('tabindex', -1);
+        }
+      } // у всех элементов окна удаляем/меняем tabindex -1
+
+
+      var interactiveElPopup = obj.popup.querySelectorAll('[tabindex="-1"]');
+
+      for (var _i2 = 0; _i2 < interactiveElPopup.length; _i2++) {
+        if (interactiveElPopup[_i2].getAttribute('data-tabindex')) {
+          interactiveElPopup[_i2].setAttribute('tabindex', interactiveElPopup[_i2].getAttribute('data-tabindex'));
+        } else {
+          interactiveElPopup[_i2].removeAttribute('tabindex');
+        }
+      } // высота прокрутки страницы на момент открытия окна
+
+
+      obj.scrollHeight = window.scrollY || window.pageYOffset; // для фиксации задаем для body
+
+      document.body.style.top = "-".concat(obj.scrollHeight, "px"); // если есть полоса прокрутки - компенсируем ее отсутствие внутренним отступом
+
+      document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + "px";
+      setTimeout(function () {
+        // запрещаем скролл
+        document.body.style.position = "fixed";
+      }, 0); // фокус окну для читалок
+
+      obj.popup.focus(); // отслеживаем клик на "esc", клик на overlay, на кнопку закрыть окно
+
+      document.addEventListener('keydown', obj.monitorKeyboard.bind(null, obj), false);
+      document.addEventListener('click', obj.monitorClick.bind(null, obj), false);
+    }
+  }, {
+    key: "monitorKeyboard",
+    value: function monitorKeyboard(obj, event) {
+      // осли кликнули на клавишу "esc" и окно открыто
+      if (event.keyCode == 27 && obj.check) {
+        // закрываем
+        obj.isClose(obj);
+      }
+    }
+  }, {
+    key: "monitorClick",
+    value: function monitorClick(obj, event) {
+      // если окно открыто
+      if (obj.check) {
+        // если кликнули на кнопку "закрыть окно" или на подложку
+        if (event.target == obj.popup.querySelector('.bolt-popup__close') || event.target == obj.popup && event.target != obj.popup.querySelector('.bolt-popup__container')) {
+          // закрываем окно
+          obj.isClose(obj);
+        }
+      }
+    }
+  }, {
+    key: "isClose",
+    value: function isClose(obj) {
+      // запоминаем что окно закрыто
+      obj.check = false; // убираем кликабельность у окна
+
+      obj.popup.removeAttribute('tabindex'); // скрываем окно
+
+      obj.popup.classList.remove('bolt-popup--visible');
+      obj.popup.setAttribute('aria-hidden', 'true'); // удаляем tabindex -1 там где не нужен на встранице
+
+      var interactiveEl = document.querySelectorAll('[tabindex="-1"]');
+
+      for (var i = 0; i < interactiveEl.length; i++) {
+        if (interactiveEl[i].getAttribute('data-tabindex') && !interactiveEl[i].getAttribute('data-popup')) {
+          interactiveEl[i].setAttribute('tabindex', interactiveEl[i].getAttribute('data-tabindex'));
+        } else if (!interactiveEl[i].getAttribute('data-popup')) {
+          interactiveEl[i].removeAttribute('tabindex');
+        }
+      } // скрываем элементы окна из доступа с клавиатуры
+
+
+      var interactiveElPopup = this.popup.querySelectorAll('[data-popup]');
+
+      for (var _i3 = 0; _i3 < interactiveElPopup.length; _i3++) {
+        interactiveElPopup[_i3].setAttribute('tabindex', -1);
+      } // у body удаляем лишние стили и возврашаем нужную высоту скролла
+
+
+      document.body.style.position = '';
+      window.scrollTo(0, obj.scrollHeight);
+      document.body.style.paddingRight = '';
+      document.body.style.top = ''; // кнопке по которой открыли окно задаем фокус
+
+      if (obj.clickBtn) obj.clickBtn.focus();
+    }
+  }]);
+
+  return BoltPopup;
+}();

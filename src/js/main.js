@@ -1,8 +1,3 @@
-window.onload = () => {
-    // создаем объекты для окон
-    let popup1 = new BoltPopup(document.querySelector('[dada-path-popup="popup-1"]'))
-    let popup2 = new BoltPopup(document.querySelector('[dada-path-popup="popup-2"]'))
-}
 
 class BoltPopup {
     constructor(popup) {
@@ -90,7 +85,7 @@ class BoltPopup {
 
         // высота прокрутки страницы на момент открытия окна
         obj.scrollHeight = window.scrollY || window.pageYOffset;
-        // для фиксации задаем для body 
+        // для фиксации задаем для body
         document.body.style.top = `-${obj.scrollHeight}px`;
         // если есть полоса прокрутки - компенсируем ее отсутствие внутренним отступом
         document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + "px";
@@ -101,7 +96,7 @@ class BoltPopup {
 
         // фокус окну для читалок
         obj.popup.focus();
-        
+
         // отслеживаем клик на "esc", клик на overlay, на кнопку закрыть окно
         document.addEventListener('keydown', obj.monitorKeyboard.bind(null, obj), false);
         document.addEventListener('click', obj.monitorClick.bind(null, obj), false);
