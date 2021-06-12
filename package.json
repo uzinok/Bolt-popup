@@ -1,6 +1,6 @@
 {
   "name": "bolt-popup",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "модальное окно",
   "main": "main.js",
   "scripts": {

@@ -30,3 +30,32 @@ BOLT-popup
 * initPopup() добавляет необходимые атрибуты
 * isOpen(obj, [clickBtn]) открывает окно (принимает текущий объект и кнопку если окно открыто по клику на кнопку)
 * isClose(obj) закрывает окно (принимает текущий объект)
+
+Использование:
+-----------------------------------
+HTML
+```
+<!--
+...
+ -->
+<div class="bolt-popup" role="dialog" dada-path-popup="popup-2">
+
+  <div class="bolt-popup__container">
+    <button class="bolt-popup__close" aria-label="Close"></button>
+    <!--
+    ...
+    -->
+  </div>
+
+</div>
+<!--
+...
+ -->
+<script src="./js/main.min.js"></script>
+<script>
+  let popup1 = new BoltPopup( document.querySelector('[dada-path-popup="popup-1"]') )
+</script>
+<!--
+...
+ -->
+```
