@@ -27,6 +27,8 @@ var BoltPopup = /*#__PURE__*/function () {
   _createClass(BoltPopup, [{
     key: "initPopup",
     value: function initPopup() {
+      var _this = this;
+
       // получаем все интерактивные элементы окна
       var interactiveEl = this.popup.querySelectorAll(this.interactiveCSS);
       this.popup.setAttribute('aria-hidden', 'true'); // перебирем все интерактивные элементы
@@ -47,24 +49,32 @@ var BoltPopup = /*#__PURE__*/function () {
 
       var btns = document.querySelectorAll("[dada-target-popup=\"".concat(this.popup.getAttribute('dada-path-popup'), "\"]")); // в цикле отслеживаем по ним клик и открываем окно
 
+      var _loop = function _loop(_i) {
+        btns[_i].addEventListener('click', function () {
+          _this.isOpen(btns[_i]);
+        });
+      };
+
       for (var _i = 0; _i < btns.length; _i++) {
-        btns[_i].addEventListener('click', this.isOpen.bind(null, this, btns[_i]));
+        _loop(_i);
       }
     }
   }, {
     key: "isOpen",
-    value: function isOpen(obj, clickBtn) {
+    value: function isOpen(clickBtn) {
+      var _this2 = this;
+
       // запоминаем что окно открыто
-      obj.check = true; // запоминаем на какую кнопку кликнули
+      this.check = true; // запоминаем на какую кнопку кликнули
 
-      obj.clickBtn = clickBtn || false; // добавляем кликабельность для overlay
+      this.clickBtn = clickBtn || false; // добавляем кликабельность для overlay
 
-      obj.popup.setAttribute('tabindex', 0); // показываем окно
+      this.popup.setAttribute('tabindex', 0); // показываем окно
 
-      obj.popup.classList.add('bolt-popup--visible');
-      obj.popup.removeAttribute('aria-hidden'); // получаем все интерактивные элементы окна
+      this.popup.classList.add('bolt-popup--visible');
+      this.popup.removeAttribute('aria-hidden'); // получаем все интерактивные элементы окна
 
-      var interactiveEl = document.querySelectorAll(obj.interactiveCSS);
+      var interactiveEl = document.querySelectorAll(this.interactiveCSS);
 
       for (var i = 0; i < interactiveEl.length; i++) {
         // если это элемент не всплывающего окна
@@ -81,7 +91,7 @@ var BoltPopup = /*#__PURE__*/function () {
       } // у всех элементов окна удаляем/меняем tabindex -1
 
 
-      var interactiveElPopup = obj.popup.querySelectorAll('[tabindex="-1"]');
+      var interactiveElPopup = this.popup.querySelectorAll('[tabindex="-1"]');
 
       for (var _i2 = 0; _i2 < interactiveElPopup.length; _i2++) {
         if (interactiveElPopup[_i2].getAttribute('data-tabindex')) {
@@ -92,9 +102,9 @@ var BoltPopup = /*#__PURE__*/function () {
       } // высота прокрутки страницы на момент открытия окна
 
 
-      obj.scrollHeight = window.scrollY || window.pageYOffset; // для фиксации задаем для body
+      this.scrollHeight = window.scrollY || window.pageYOffset; // для фиксации задаем для body
 
-      document.body.style.top = "-".concat(obj.scrollHeight, "px"); // если есть полоса прокрутки - компенсируем ее отсутствие внутренним отступом
+      document.body.style.top = "-".concat(this.scrollHeight, "px"); // если есть полоса прокрутки - компенсируем ее отсутствие внутренним отступом
 
       document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + "px";
       setTimeout(function () {
@@ -102,42 +112,48 @@ var BoltPopup = /*#__PURE__*/function () {
         document.body.style.position = "fixed";
       }, 0); // фокус окну для читалок
 
-      obj.popup.focus(); // отслеживаем клик на "esc", клик на overlay, на кнопку закрыть окно
+      this.popup.focus(); // отслеживаем клик на "esc", клик на overlay, на кнопку закрыть окно
 
-      document.addEventListener('keydown', obj.monitorKeyboard.bind(null, obj), false);
-      document.addEventListener('click', obj.monitorClick.bind(null, obj), false);
+      document.addEventListener('keydown', function () {
+        _this2.monitorKeyboard(event);
+      });
+      document.addEventListener('click', function () {
+        _this2.monitorClick(event);
+      });
     }
   }, {
     key: "monitorKeyboard",
-    value: function monitorKeyboard(obj, event) {
-      // осли кликнули на клавишу "esc" и окно открыто
-      if (event.keyCode == 27 && obj.check) {
+    value: function monitorKeyboard(event) {
+      console.log(event); // осли кликнули на клавишу "esc" и окно открыто
+
+      if (event.keyCode == 27 && this.check) {
         // закрываем
-        obj.isClose(obj);
+        this.isClose();
       }
     }
   }, {
     key: "monitorClick",
-    value: function monitorClick(obj, event) {
-      // если окно открыто
-      if (obj.check) {
+    value: function monitorClick(event) {
+      console.log(event); // если окно открыто
+
+      if (this.check) {
         // если кликнули на кнопку "закрыть окно" или на подложку
-        if (event.target == obj.popup.querySelector('.bolt-popup__close') || event.target == obj.popup && event.target != obj.popup.querySelector('.bolt-popup__container')) {
+        if (event.target == this.popup.querySelector('.bolt-popup__close') || event.target == this.popup && event.target != this.popup.querySelector('.bolt-popup__container')) {
           // закрываем окно
-          obj.isClose(obj);
+          this.isClose();
         }
       }
     }
   }, {
     key: "isClose",
-    value: function isClose(obj) {
+    value: function isClose() {
       // запоминаем что окно закрыто
-      obj.check = false; // убираем кликабельность у окна
+      this.check = false; // убираем кликабельность у окна
 
-      obj.popup.removeAttribute('tabindex'); // скрываем окно
+      this.popup.removeAttribute('tabindex'); // скрываем окно
 
-      obj.popup.classList.remove('bolt-popup--visible');
-      obj.popup.setAttribute('aria-hidden', 'true'); // удаляем tabindex -1 там где не нужен на встранице
+      this.popup.classList.remove('bolt-popup--visible');
+      this.popup.setAttribute('aria-hidden', 'true'); // удаляем tabindex -1 там где не нужен на встранице
 
       var interactiveEl = document.querySelectorAll('[tabindex="-1"]');
 
@@ -158,11 +174,11 @@ var BoltPopup = /*#__PURE__*/function () {
 
 
       document.body.style.position = '';
-      window.scrollTo(0, obj.scrollHeight);
+      window.scrollTo(0, this.scrollHeight);
       document.body.style.paddingRight = '';
       document.body.style.top = ''; // кнопке по которой открыли окно задаем фокус
 
-      if (obj.clickBtn) obj.clickBtn.focus();
+      if (this.clickBtn) this.clickBtn.focus();
     }
   }]);
 
