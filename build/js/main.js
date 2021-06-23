@@ -6,9 +6,34 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var BoltPopup = /*#__PURE__*/function () {
   function BoltPopup(popup) {
+    var _this = this;
+
     _classCallCheck(this, BoltPopup);
+
+    _defineProperty(this, "monitorKeyboard", function (event) {
+      console.log(event); // осли кликнули на клавишу "esc" и окно открыто
+
+      if (event.keyCode == 27 && _this.check) {
+        // закрываем
+        _this.isClose();
+      }
+    });
+
+    _defineProperty(this, "monitorClick", function (event) {
+      console.log(event); // если окно открыто
+
+      if (_this.check) {
+        // если кликнули на кнопку "закрыть окно" или на подложку
+        if (event.target == _this.popup.querySelector('.bolt-popup__close') || event.target == _this.popup && event.target != _this.popup.querySelector('.bolt-popup__container')) {
+          // закрываем окно
+          _this.isClose();
+        }
+      }
+    });
 
     // само окно
     this.popup = popup; // кнопка на которую кликнули для открытия окна
@@ -27,7 +52,7 @@ var BoltPopup = /*#__PURE__*/function () {
   _createClass(BoltPopup, [{
     key: "initPopup",
     value: function initPopup() {
-      var _this = this;
+      var _this2 = this;
 
       // получаем все интерактивные элементы окна
       var interactiveEl = this.popup.querySelectorAll(this.interactiveCSS);
@@ -51,7 +76,7 @@ var BoltPopup = /*#__PURE__*/function () {
 
       var _loop = function _loop(_i) {
         btns[_i].addEventListener('click', function () {
-          _this.isOpen(btns[_i]);
+          _this2.isOpen(btns[_i]);
         });
       };
 
@@ -62,8 +87,6 @@ var BoltPopup = /*#__PURE__*/function () {
   }, {
     key: "isOpen",
     value: function isOpen(clickBtn) {
-      var _this2 = this;
-
       // запоминаем что окно открыто
       this.check = true; // запоминаем на какую кнопку кликнули
 
@@ -114,35 +137,8 @@ var BoltPopup = /*#__PURE__*/function () {
 
       this.popup.focus(); // отслеживаем клик на "esc", клик на overlay, на кнопку закрыть окно
 
-      document.addEventListener('keydown', function () {
-        _this2.monitorKeyboard(event);
-      });
-      document.addEventListener('click', function () {
-        _this2.monitorClick(event);
-      });
-    }
-  }, {
-    key: "monitorKeyboard",
-    value: function monitorKeyboard(event) {
-      console.log(event); // осли кликнули на клавишу "esc" и окно открыто
-
-      if (event.keyCode == 27 && this.check) {
-        // закрываем
-        this.isClose();
-      }
-    }
-  }, {
-    key: "monitorClick",
-    value: function monitorClick(event) {
-      console.log(event); // если окно открыто
-
-      if (this.check) {
-        // если кликнули на кнопку "закрыть окно" или на подложку
-        if (event.target == this.popup.querySelector('.bolt-popup__close') || event.target == this.popup && event.target != this.popup.querySelector('.bolt-popup__container')) {
-          // закрываем окно
-          this.isClose();
-        }
-      }
+      document.addEventListener('keydown', this.monitorKeyboard);
+      document.addEventListener('click', this.monitorClick);
     }
   }, {
     key: "isClose",
@@ -178,7 +174,10 @@ var BoltPopup = /*#__PURE__*/function () {
       document.body.style.paddingRight = '';
       document.body.style.top = ''; // кнопке по которой открыли окно задаем фокус
 
-      if (this.clickBtn) this.clickBtn.focus();
+      if (this.clickBtn) this.clickBtn.focus(); // удаляем слушатели событий
+
+      document.removeEventListener('keydown', this.monitorKeyboard);
+      document.removeEventListener('click', this.monitorClick);
     }
   }]);
 

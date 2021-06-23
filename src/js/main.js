@@ -99,15 +99,11 @@ class BoltPopup {
         this.popup.focus();
 
         // отслеживаем клик на "esc", клик на overlay, на кнопку закрыть окно
-        document.addEventListener('keydown', () => {
-            this.monitorKeyboard(event);
-        });
-        document.addEventListener('click', () => {
-            this.monitorClick(event);
-        });
+        document.addEventListener('keydown', this.monitorKeyboard);
+        document.addEventListener('click', this.monitorClick);
     }
 
-    monitorKeyboard(event) {
+    monitorKeyboard = (event) => {
         console.log(event);
         // осли кликнули на клавишу "esc" и окно открыто
         if (event.keyCode == 27 && this.check) {
@@ -116,7 +112,7 @@ class BoltPopup {
         }
     }
 
-    monitorClick(event) {
+    monitorClick = (event) => {
         console.log(event);
         // если окно открыто
         if (this.check) {
@@ -165,5 +161,9 @@ class BoltPopup {
 
         // кнопке по которой открыли окно задаем фокус
         if (this.clickBtn) this.clickBtn.focus();
+
+        // удаляем слушатели событий
+        document.removeEventListener('keydown', this.monitorKeyboard);
+        document.removeEventListener('click', this.monitorClick);
     }
 }
