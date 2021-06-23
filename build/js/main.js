@@ -15,8 +15,7 @@ var BoltPopup = /*#__PURE__*/function () {
     _classCallCheck(this, BoltPopup);
 
     _defineProperty(this, "monitorKeyboard", function (event) {
-      console.log(event); // осли кликнули на клавишу "esc" и окно открыто
-
+      // осли кликнули на клавишу "esc" и окно открыто
       if (event.keyCode == 27 && _this.check) {
         // закрываем
         _this.isClose();
@@ -24,8 +23,7 @@ var BoltPopup = /*#__PURE__*/function () {
     });
 
     _defineProperty(this, "monitorClick", function (event) {
-      console.log(event); // если окно открыто
-
+      // если окно открыто
       if (_this.check) {
         // если кликнули на кнопку "закрыть окно" или на подложку
         if (event.target == _this.popup.querySelector('.bolt-popup__close') || event.target == _this.popup && event.target != _this.popup.querySelector('.bolt-popup__container')) {

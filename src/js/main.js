@@ -104,7 +104,6 @@ class BoltPopup {
     }
 
     monitorKeyboard = (event) => {
-        console.log(event);
         // осли кликнули на клавишу "esc" и окно открыто
         if (event.keyCode == 27 && this.check) {
             // закрываем
@@ -113,7 +112,6 @@ class BoltPopup {
     }
 
     monitorClick = (event) => {
-        console.log(event);
         // если окно открыто
         if (this.check) {
             // если кликнули на кнопку "закрыть окно" или на подложку
