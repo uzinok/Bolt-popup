@@ -15,21 +15,18 @@ var BoltPopup = /*#__PURE__*/function () {
     _classCallCheck(this, BoltPopup);
 
     _defineProperty(this, "monitorKeyboard", function (event) {
-      // осли кликнули на клавишу "esc" и окно открыто
-      if (event.keyCode == 27 && _this.check) {
+      // если кликнули на клавишу "esc" и окно открыто
+      if (event.keyCode == 27) {
         // закрываем
         _this.isClose();
       }
     });
 
     _defineProperty(this, "monitorClick", function (event) {
-      // если окно открыто
-      if (_this.check) {
-        // если кликнули на кнопку "закрыть окно" или на подложку
-        if (event.target == _this.popup.querySelector('.bolt-popup__close') || event.target == _this.popup && event.target != _this.popup.querySelector('.bolt-popup__container')) {
-          // закрываем окно
-          _this.isClose();
-        }
+      // если кликнули на кнопку "закрыть окно" или на подложку
+      if (event.target == _this.popup.querySelector('.bolt-popup__close') || event.target == _this.popup && event.target != _this.popup.querySelector('.bolt-popup__container')) {
+        // закрываем окно
+        _this.isClose();
       }
     });
 
@@ -120,8 +117,10 @@ var BoltPopup = /*#__PURE__*/function () {
         } else {
           interactiveElPopup[_i2].removeAttribute('tabindex');
         }
-      } // высота прокрутки страницы на момент открытия окна
+      } // на тот случай если body не на всю ширину
 
+
+      document.body.style.width = '100%'; // высота прокрутки страницы на момент открытия окна
 
       this.scrollHeight = window.scrollY || window.pageYOffset; // для фиксации задаем для body
 
@@ -168,6 +167,7 @@ var BoltPopup = /*#__PURE__*/function () {
 
 
       document.body.style.position = '';
+      document.body.style.width = '';
       window.scrollTo(0, this.scrollHeight);
       document.body.style.paddingRight = '';
       document.body.style.top = ''; // кнопке по которой открыли окно задаем фокус

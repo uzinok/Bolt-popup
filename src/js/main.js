@@ -84,6 +84,8 @@ class BoltPopup {
             }
         }
 
+        // на тот случай если body не на всю ширину
+        document.body.style.width = '100%';
         // высота прокрутки страницы на момент открытия окна
         this.scrollHeight = window.scrollY || window.pageYOffset;
         // для фиксации задаем для body
@@ -104,24 +106,21 @@ class BoltPopup {
     }
 
     monitorKeyboard = (event) => {
-        // осли кликнули на клавишу "esc" и окно открыто
-        if (event.keyCode == 27 && this.check) {
+        // если кликнули на клавишу "esc" и окно открыто
+        if (event.keyCode == 27) {
             // закрываем
             this.isClose();
         }
     }
 
     monitorClick = (event) => {
-        // если окно открыто
-        if (this.check) {
-            // если кликнули на кнопку "закрыть окно" или на подложку
-            if (
-                event.target == this.popup.querySelector('.bolt-popup__close') ||
-                event.target == this.popup && event.target != this.popup.querySelector('.bolt-popup__container')
-            ) {
-                // закрываем окно
-                this.isClose();
-            }
+        // если кликнули на кнопку "закрыть окно" или на подложку
+        if (
+            event.target == this.popup.querySelector('.bolt-popup__close') ||
+            event.target == this.popup && event.target != this.popup.querySelector('.bolt-popup__container')
+        ) {
+            // закрываем окно
+            this.isClose();
         }
     }
 
@@ -152,6 +151,7 @@ class BoltPopup {
 
         // у body удаляем лишние стили и возврашаем нужную высоту скролла
         document.body.style.position = '';
+        document.body.style.width = '';
 
         window.scrollTo(0, this.scrollHeight);
         document.body.style.paddingRight = '';
