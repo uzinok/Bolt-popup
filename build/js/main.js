@@ -4,7 +4,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -126,7 +126,6 @@ var BoltPopup = /*#__PURE__*/function () {
 
       document.body.style.top = "-".concat(this.scrollHeight, "px"); // если есть полоса прокрутки - компенсируем ее отсутствие внутренним отступом
 
-      document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + "px";
       setTimeout(function () {
         // запрещаем скролл
         document.body.style.position = "fixed";
@@ -169,7 +168,6 @@ var BoltPopup = /*#__PURE__*/function () {
       document.body.style.position = '';
       document.body.style.width = '';
       window.scrollTo(0, this.scrollHeight);
-      document.body.style.paddingRight = '';
       document.body.style.top = ''; // кнопке по которой открыли окно задаем фокус
 
       if (this.clickBtn) this.clickBtn.focus(); // удаляем слушатели событий

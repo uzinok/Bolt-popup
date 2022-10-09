@@ -91,7 +91,6 @@ class BoltPopup {
         // для фиксации задаем для body
         document.body.style.top = `-${this.scrollHeight}px`;
         // если есть полоса прокрутки - компенсируем ее отсутствие внутренним отступом
-        document.body.style.paddingRight = window.innerWidth - document.body.offsetWidth + "px";
         setTimeout(function () {
             // запрещаем скролл
             document.body.style.position = "fixed";
@@ -154,7 +153,6 @@ class BoltPopup {
         document.body.style.width = '';
 
         window.scrollTo(0, this.scrollHeight);
-        document.body.style.paddingRight = '';
         document.body.style.top = '';
 
         // кнопке по которой открыли окно задаем фокус
