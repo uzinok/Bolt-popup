@@ -30,23 +30,20 @@ function closeDialog() {
 
 // полифил
 
-/**
- * В реальных проектах мы бы брали полифил из Node пакета.
- * Но для примера воспользуемся CDN */
-const dialogPolyfillURL = "https://esm.run/dialog-polyfill";
-
 const isBrowserNotSupportDialog = window.HTMLDialogElement === undefined;
 
-/**
- * Подключаем полифил к каждому dialog на странице, если в браузере нет поддержки
- * */
 if (isBrowserNotSupportDialog) {
-    const dialogs = document.querySelectorAll("dialog");
+    const script = document.createElement('script');
+    script.src = 'js/dialog-polyfill.js';
+    document.body.appendChild(script);
 
-    dialogs.forEach(async (dialog) => {
-        const {
-            default: polyfill
-        } = await import(dialogPolyfillURL);
-        polyfill.registerDialog(dialog);
-    });
+    let link = document.createElement('link');
+    link.href = 'css/dialog-polyfill.css';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+
+    script.addEventListener('load', () => {
+        var MyDialog = document.querySelector('dialog');
+        dialogPolyfill.registerDialog(dialog);
+    })
 }

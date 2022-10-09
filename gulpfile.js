@@ -35,7 +35,7 @@ exports.clean = clean;
  * less
  */
 const lessToCss = () => {
-  return src('src/less/style.less')
+  return src('src/less/*.less')
     .pipe(plumber({
       errorHandler: notify.onError(function (err) {
         return {
@@ -70,7 +70,7 @@ const htmlTo = () => {
 exports.htmlTo = htmlTo;
 
 const scripts = () => {
-  return src('src/js/main.js')
+  return src('src/js/*.js')
     .pipe(plumber({
       errorHandler: notify.onError(function (err) {
         return {
@@ -78,9 +78,6 @@ const scripts = () => {
           message: err.message
         }
       })
-    }))
-    .pipe(concat('main.js', {
-      newLine: ';'
     }))
     .pipe(babel({
       presets: ['@babel/preset-env']
