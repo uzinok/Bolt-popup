@@ -7,6 +7,13 @@ dialogContent.style.marginRight = window.innerWidth - document.body.offsetWidth 
 
 dialogOpenButton.addEventListener('click', openDialog);
 dialogCloesButton.addEventListener('click', closeDialog);
+document.addEventListener('keydown', event => {
+    if (event.keyCode == 27) {
+        // закрываем
+        closeDialog();
+    }
+});
+
 dialog.addEventListener('click', e => {
     if (dialog == e.target) closeDialog();
 });
@@ -20,6 +27,7 @@ function closeDialog() {
     dialog.close();
     document.body.classList.remove('scroll-lock');
 }
+
 // полифил
 
 /**

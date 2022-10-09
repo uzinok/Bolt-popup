@@ -19,6 +19,12 @@ var dialogContent = document.querySelector('.dialog__content');
 dialogContent.style.marginRight = window.innerWidth - document.body.offsetWidth + "px";
 dialogOpenButton.addEventListener('click', openDialog);
 dialogCloesButton.addEventListener('click', closeDialog);
+document.addEventListener('keydown', function (event) {
+  if (event.keyCode == 27) {
+    // закрываем
+    closeDialog();
+  }
+});
 dialog.addEventListener('click', function (e) {
   if (dialog == e.target) closeDialog();
 });
