@@ -1,10 +1,7 @@
-body.scroll-lock {
-  filter: blur(0);
-}
-
 dialog {
   position: absolute;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   width: -moz-fit-content;
   width: -webkit-fit-content;
   width: fit-content;
@@ -23,15 +20,21 @@ dialog:not([open]) {
   display: none;
 }
 
-dialog + .backdrop {
+dialog+.backdrop {
   position: fixed;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: rgba(0,0,0,0.1);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 ._dialog_overlay {
   position: fixed;
-  top: 0; right: 0; bottom: 0; left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 dialog.fixed {

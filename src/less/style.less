@@ -16,12 +16,16 @@ body {
 
 .dialog::backdrop {
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .scroll-lock {
   overflow: hidden;
-  background-color: rgba(0, 0, 20, 0.5);
+}
+
+.scroll-lock .body {
   filter: blur(2px);
+  transition: filter 0.25s linear;
 }
 
 .dialog[open]::backdrop,
@@ -34,6 +38,7 @@ body {
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
