@@ -1,183 +1,286 @@
 const {
-  src,
-  dest,
-  parallel,
-  series,
-  watch
+	src,
+	dest,
+	watch,
+	series,
+	parallel
 } = require('gulp');
+
 // clean
 const del = require('del');
-// less
-const less = require('gulp-less');
-const autoprefixer = require('gulp-autoprefixer');
-const csso = require('gulp-csso');
-// html
-const htmlmin = require('gulp-htmlmin');
-// js
-const babel = require('gulp-babel');
-const minify = require('gulp-minify');
-const concat = require('gulp-concat');
+// rename
+const rename = require('gulp-rename');
 // browserSync
 const browserSync = require('browser-sync').create();
 // error
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 
-/**
- * clean
- */
-const clean = () => {
-  return del('build');
+// styles
+const less = require('gulp-less');
+// const cleanCSS = require('gulp-clean-css');
+const autoprefixer = require('autoprefixer');
+const gcmq = require('gulp-group-css-media-queries');
+
+const postcss = require('gulp-postcss');
+const postLess = require('postcss-less');
+const postImport = require('postcss-import');
+const postUrl = require('postcss-url');
+const postMediaMinMax = require('postcss-media-minmax');
+const csso = require('postcss-csso')
+
+// scripts
+const babel = require('gulp-babel');
+const minify = require('gulp-minify');
+
+// html
+const htmlmin = require('gulp-htmlmin');
+const nunjucks = require('gulp-nunjucks');
+
+const paths = {
+	dest: 'dest',
+	src: 'src',
+	styles: {
+		src: 'src/styles/*.less',
+		watch: 'src/styles/**/*.less',
+		dest: 'dest/styles/'
+	},
+	scripts: {
+		src: 'src/scripts/**/*.js',
+		watch: 'src/scripts/**/*.js',
+		dest: 'dest/scripts/'
+	},
+	html: {
+		src: 'src/**/*.html',
+		watch: 'src/**/*.html',
+		dest: 'dest/'
+	},
+	img: {
+		resource: './src/resource/img',
+		resourceSvg: './src/resource/svg',
+		src: './src/img',
+	},
+	fonts: {
+		src: './src/fonts',
+		resource: './src/resource/fonts',
+	}
 }
+
+const onError = function(err) {
+	notify.onError({
+		title: "Gulp",
+		subtitle: "Failure!",
+		message: "Error: <%= error.message %>",
+		sound: "Beep"
+	})(err);
+	this.emit('end');
+}
+
+// clean
+function clean() {
+	return del(paths.dest);
+}
+
+// copy
+function copy() {
+	return src([
+			"./src/fonts/*.{woff2,woff,ttf}",
+			"./src/*.ico",
+			"./src/img/**/*.{svg,jpg,jpeg,png,webp,avif}",
+			"./src/favicons/*",
+			"./src/*.webmanifest",
+			"./src/library/**/*.{js,css}"
+		], {
+			base: paths.src
+		})
+		.pipe(dest(paths.dest));
+}
+
+// styles
+function styles() {
+	return src(paths.styles.src, {
+			sourcemaps: true
+		})
+		.pipe(plumber({
+			errorHandler: notify.onError(function(err) {
+				return {
+					title: 'Task styles',
+					message: "Error: <%= error.message %>",
+					sound: true
+				}
+			})
+		}))
+		.pipe(postcss([
+			postImport(),
+			postUrl()
+		], {
+			syntax: postLess
+		}))
+		.pipe(plumber({
+			errorHandler: onError
+		}))
+		.pipe(less())
+		.pipe(gcmq())
+		.pipe(postcss([
+			postMediaMinMax(),
+			csso(),
+			autoprefixer(),
+		]))
+		.pipe(dest(paths.styles.dest, {
+			sourcemaps: "."
+		}))
+		.pipe(browserSync.stream());
+}
+
+// scripts
+function scripts() {
+	return src(paths.scripts.src)
+		.pipe(plumber({
+			errorHandler: notify.onError(function(err) {
+				return {
+					title: 'Task scripts',
+					message: "Error: <%= error.message %>",
+					sound: true
+				}
+			})
+		}))
+		.pipe(babel({
+			presets: ['@babel/preset-env']
+		}))
+		.pipe(minify({
+			ext: {
+				src: '.js',
+				min: '.min.js'
+			},
+			exclude: ['tasks']
+		}))
+		.pipe(dest(paths.scripts.dest))
+		.pipe(browserSync.stream());
+}
+
+// html
+function html() {
+	return src(paths.html.src)
+		.pipe(nunjucks.compile())
+		.pipe(htmlmin({
+			removeComments: false,
+			collapseWhitespace: true
+		}))
+		.pipe(dest(paths.html.dest))
+		.pipe(browserSync.stream());
+}
+
+// watch
+function watchFiles() {
+	watch(paths.styles.watch, styles)
+	watch(paths.scripts.watch, scripts)
+	watch(paths.html.watch, html)
+}
+
+// server
+function server() {
+	browserSync.init({
+		server: {
+			baseDir: paths.dest
+		}
+	});
+
+	watchFiles();
+}
+
+// clean
 exports.clean = clean;
-
-/**
- * less
- */
-const lessToCss = () => {
-  return src('src/less/*.less')
-    .pipe(plumber({
-      errorHandler: notify.onError(function (err) {
-        return {
-          title: 'Less',
-          message: err.message
-        }
-      })
-    }))
-    .pipe(less())
-    .pipe(autoprefixer({
-      grid: true,
-      overrideBrowserslist: ['last 10 versions']
-    }))
-    .pipe(csso())
-    .pipe(dest('build/css'))
-    .pipe(browserSync.stream());
-}
-exports.lessToCss = lessToCss;
-
-/**
- * html
- */
-const htmlTo = () => {
-  return src('src/*.html')
-    .pipe(htmlmin({
-      removeComments: false,
-      collapseWhitespace: true
-    }))
-    .pipe(dest('build'))
-    .pipe(browserSync.stream());
-}
-exports.htmlTo = htmlTo;
-
-const scripts = () => {
-  return src('src/js/*.js')
-    .pipe(plumber({
-      errorHandler: notify.onError(function (err) {
-        return {
-          title: 'js',
-          message: err.message
-        }
-      })
-    }))
-    .pipe(babel({
-      presets: ['@babel/preset-env']
-    }))
-    .pipe(minify({
-      ext: {
-        src: '.js',
-        min: '.min.js'
-      },
-      exclude: ['tasks']
-    }))
-    .pipe(dest('build/js'))
-    .pipe(browserSync.stream());
-}
+// copy
+exports.copy = copy;
+// styles
+exports.styles = styles;
+// watchFiles
+exports.watchFiles = watchFiles;
+// scripts
 exports.scripts = scripts;
-
-/**
- * browserSync
- */
-const server = () => {
-  browserSync.init({
-    server: {
-      baseDir: './build/'
-    }
-  });
-
-  watch('src/less/**/*.less', lessToCss);
-  watch('src/*.html', htmlTo);
-  watch('src/js/**/*.js', scripts);
-}
+// html
+exports.html = html;
+// server
 exports.server = server;
 
-/**
- * default
- */
-exports.default = series(clean, parallel(lessToCss, scripts, htmlTo), server);
+exports.build = series(clean, copy, parallel(styles, scripts, html))
+
+exports.default = series(clean, copy, parallel(scripts, styles, html), server);
 
 /**
- * build
+ * Дополнительные задачи
  */
-/**
- * less to build
- */
+// img
+const squoosh = require('gulp-libsquoosh');
+const svgSprite = require('gulp-svg-sprite');
+const svgmin = require('gulp-svgmin');
+// fonts
+const ttf2woff2 = require('gulp-ttf2woff2');
+const ttf2woff = require('gulp-ttf2woff');
 
-const lessToCssBuild = () => {
-  return src('src/less/style.less')
-    .pipe(less())
-    .pipe(autoprefixer({
-      grid: true,
-      overrideBrowserslist: ['last 5 versions']
-    }))
-    .pipe(csso())
-    .pipe(dest('build/css'))
+// img
+function optiImg() {
+	src(paths.img.src + "/**/*.svg", {
+			base: paths.src
+		})
+		.pipe(svgmin())
+		.pipe(dest(paths.src));
+	return src(paths.img.src + "/**/*.{png,jpg}", {
+			base: paths.src
+		})
+		.pipe(squoosh())
+		.pipe(dest(paths.src));
 }
-exports.lessToCssBuild = lessToCssBuild;
 
-/**
- * scripts to build
- */
-
-
-const scriptsBuild = () => {
-  return src('src/js/main.js')
-    .pipe(plumber({
-      errorHandler: notify.onError(function (err) {
-        return {
-          title: 'js',
-          message: err.message
-        }
-      })
-    }))
-    .pipe(concat('main.js', {
-      newLine: ';'
-    }))
-    .pipe(babel({
-      presets: ['@babel/preset-env']
-    }))
-    .pipe(minify({
-      ext: {
-        src: '.js',
-        min: '.min.js'
-      },
-      exclude: ['tasks']
-    }))
-    .pipe(dest('build/js'))
-    .pipe(browserSync.stream());
+function createWebp() {
+	return src(paths.img.resource + "/**/*.{jpg,png}")
+		.pipe(
+			squoosh({
+				webp: {}
+			})
+		)
+		.pipe(dest(paths.img.src));
 }
-exports.scriptsBuild = scriptsBuild;
 
-/**
- * html to build
- */
-const htmlToBuild = () => {
-  return src('src/*.html')
-    .pipe(htmlmin({
-      removeComments: false,
-      collapseWhitespace: true
-    }))
-    .pipe(dest('build'))
+function createAvif() {
+	return src(paths.img.resource + "/**/*.{jpg,png}")
+		.pipe(
+			squoosh({
+				avif: {}
+			})
+		)
+		.pipe(dest(paths.img.src));
 }
-exports.htmlToBuild = htmlToBuild;
 
-exports.build = series(clean, parallel(lessToCssBuild, scriptsBuild, htmlToBuild));
+function sprite() {
+	return src(paths.img.resourceSvg + "/*.svg")
+		.pipe(svgSprite({
+			mode: {
+				stack: {
+					sprite: "../sprite.svg"
+				}
+			},
+		}))
+		.pipe(dest(paths.img.src));
+}
+
+// fonts
+function fonts() {
+	src([paths.fonts.resource + '/*.ttf'])
+		.pipe(ttf2woff())
+		.pipe(dest(paths.fonts.src));
+	return src([paths.fonts.resource + '/*.ttf'])
+		.pipe(ttf2woff2())
+		.pipe(dest(paths.fonts.src));
+}
+
+// createWebp
+exports.createWebp = createWebp;
+// createAvif
+exports.createAvif = createAvif;
+// optiImg
+exports.optiImg = optiImg;
+// sprite
+exports.sprite = sprite;
+// fonts
+exports.fonts = fonts;

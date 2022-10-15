@@ -1,0 +1,49 @@
+// html и body что бы не дергалась страница при отключении скролла
+// .dialog визуально выравнивает при окно при полосе прокрутки
+html,
+body,
+.dialog {
+	scrollbar-gutter: stable;
+}
+
+.dialog {
+	padding: 0;
+	background-color: transparent;
+	border: none;
+}
+
+.dialog__content {
+	padding: 1em;
+	background-color: #fff;
+}
+
+.dialog::backdrop {
+	cursor: pointer;
+}
+
+.dialog[open]::backdrop,
+.dialog[open] {
+	animation-name: opacity-view;
+	animation-duration: 0.25s;
+}
+
+@keyframes opacity-view {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+.dialog[open]::backdrop,
+dialog + .backdrop {
+	// значение по умаолчанию
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.scroll-lock .body {
+  filter: blur(1px);
+  transition: filter 0.25s linear;
+}
