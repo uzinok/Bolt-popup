@@ -9,7 +9,13 @@ function dialog(elem) {
 	const closeButton = elem.querySelector('.dialog__close');
 
 	for (let i = 0; i < openingButtons.length; i++) {
-		openingButtons[i].addEventListener('click', opensModal);
+		openingButtons[i].addEventListener('click', function() {
+			console.log(this.dataset.modal);
+			if (this.dataset.modal === "false")
+				opensWindow();
+			else
+				opensModal();
+		});
 	}
 
 	closeButton.addEventListener('click', closesModal);
@@ -18,9 +24,17 @@ function dialog(elem) {
 		if (elem == e.target) closesModal();
 	});
 
+	document.addEventListener('keydown', e => {
+		if (e.key == "Escape") closesModal();
+	});
+
 	function opensModal() {
 		elem.showModal();
 		scrollLock();
+	}
+
+	function opensWindow() {
+		elem.show();
 	}
 
 	function closesModal() {
