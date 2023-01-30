@@ -10,7 +10,6 @@ function dialog(elem) {
 
 	for (let i = 0; i < openingButtons.length; i++) {
 		openingButtons[i].addEventListener('click', function() {
-			console.log(this.dataset.modal);
 			if (this.dataset.modal === "false")
 				opensWindow();
 			else
