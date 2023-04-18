@@ -36,7 +36,7 @@ class BoltPopup {
         }
 
         // получаем все возможные кнопки для открытия текущего окна
-        let btns = document.querySelectorAll(`[dada-target-popup="${this.popup.getAttribute('dada-path-popup')}"]`);
+        let btns = document.querySelectorAll(`[data-target-popup="${this.popup.getAttribute('data-path-popup')}"]`);
 
         // в цикле отслеживаем по ним клик и открываем окно
         for (let i = 0; i < btns.length; i++) {

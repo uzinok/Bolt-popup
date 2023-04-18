@@ -75,9 +75,9 @@
 
     <section>
       <h2>открываем окна</h2>
-      <button class="btn" dada-target-popup="popup-1">открыть окно 1</button>
-      <button class="btn" tabindex="5" dada-target-popup="popup-2">открыть окно 2</button>
-      <button class="btn btn-2" dada-target-popup="popup-2">открыть окно 2</button>
+      <button class="btn" data-target-popup="popup-1">открыть окно 1</button>
+      <button class="btn" tabindex="5" data-target-popup="popup-2">открыть окно 2</button>
+      <button class="btn btn-2" data-target-popup="popup-2">открыть окно 2</button>
     </section>
 
     <section>
@@ -97,7 +97,7 @@
   </main>
 
   <div aria-lebelledby="modalTitle" aria-describedby="modalDesc" class="bolt-popup" role="dialog"
-    dada-path-popup="popup-1">
+    data-path-popup="popup-1">
 
     <div class="bolt-popup__container">
       <button class="bolt-popup__close" aria-label="Close"></button>
@@ -108,7 +108,7 @@
 
   </div>
 
-  <div class="bolt-popup" role="dialog" dada-path-popup="popup-2">
+  <div class="bolt-popup" role="dialog" data-path-popup="popup-2">
 
     <div class="bolt-popup__container">
       <button class="bolt-popup__close" aria-label="Close"></button>
@@ -122,8 +122,8 @@
   <script>
     window.onload = function() {
       // создаем объекты для окон
-      let popup1 = new BoltPopup(document.querySelector('[dada-path-popup="popup-1"]'))
-      let popup2 = new BoltPopup(document.querySelector('[dada-path-popup="popup-2"]'))
+      let popup1 = new BoltPopup(document.querySelector('[data-path-popup="popup-1"]'))
+      let popup2 = new BoltPopup(document.querySelector('[data-path-popup="popup-2"]'))
     }
   </script>
 </body>

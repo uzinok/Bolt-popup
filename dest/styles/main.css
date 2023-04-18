@@ -1,0 +1,2 @@
+@keyframes opacity-view{0%{opacity:0}to{opacity:1}}.dialog,body,html{scrollbar-gutter:stable}.dialog{padding:0;background-color:transparent;border:0}.dialog__content{padding:1em;background-color:#fff}.dialog::backdrop{cursor:pointer}.dialog[open],.dialog[open]::backdrop{animation-name:opacity-view;animation-duration:.25s}.dialog[open]::backdrop,dialog+.backdrop{background:rgba(0,0,0,.1)}.scroll-lock .body{filter:blur(1px);transition:filter .25s linear}
+/*# sourceMappingURL=main.css.map */

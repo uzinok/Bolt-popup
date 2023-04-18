@@ -38,7 +38,7 @@ HTML
 <!--
 ...
  -->
-<div class="bolt-popup" role="dialog" dada-path-popup="popup-2">
+<div class="bolt-popup" role="dialog" data-path-popup="popup-2">
 
   <div class="bolt-popup__container">
     <button class="bolt-popup__close" aria-label="Close"></button>
@@ -53,7 +53,7 @@ HTML
  -->
 <script src="./js/main.min.js"></script>
 <script>
-  let popup1 = new BoltPopup( document.querySelector('[dada-path-popup="popup-1"]') )
+  let popup1 = new BoltPopup( document.querySelector('[data-path-popup="popup-1"]') )
 </script>
 <!--
 ...
